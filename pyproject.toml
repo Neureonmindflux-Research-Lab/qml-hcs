@@ -1,0 +1,159 @@
+
+
+
+[build-system]
+# Uses setuptools for standard Python packaging.
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qmlhc"
+version = "0.1.0"
+description = "Quantum Machine Learning with hypercausal feedback for non-stationary environments."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "BSD 3-Clause License" }
+
+authors = [
+  { name = "Neureonmindflux Research Lab", email = "contact@neureonmindfluxlab.org" }
+]
+
+keywords = [
+  "quantum-machine-learning",
+  "hypercausal",
+  "non-stationary",
+  "forecasting",
+  "control",
+  "anomaly-detection",
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Quantum Machine Learning",
+  "Topic :: Scientific/Engineering :: Hypercausal System",
+  "Topic :: Scientific/Engineering :: Neural Networks",
+  "Topic :: Scientific/Engineering :: Quantum Computing",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Simulation",
+  "Topic :: Scientific/Engineering :: Complex Systems",
+  "Topic :: Scientific/Engineering :: Systems Theory",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries :: Scientific"
+]
+
+
+# Core dependencies for numerical and typing utilities.
+dependencies = [
+  "numpy>=1.23",
+  "scipy>=1.10",
+  "typing-extensions>=4.6",
+]
+
+[project.urls]
+Homepage = ""
+Issues = "https://github.com/Neureonmindflux-Research-Lab/qml-hcs/issues"
+Documentation = ""
+
+[project.optional-dependencies]
+# Optional quantum backends.
+qiskit = ["qiskit>=1.2"]
+pennylane = ["pennylane>=0.36"]
+
+# Optional ML frameworks.
+torch = ["torch>=2.2"]
+jax = ["jax>=0.4.23", "jaxlib>=0.4.23"]
+
+# Optional visualization tools.
+viz = [
+  "matplotlib>=3.8",
+]
+
+# Developer tools.
+dev = [
+  "ruff>=0.6.0",
+  "mypy>=1.7.0",
+  "pytest>=8.1",
+  "pytest-cov>=4.1",
+  "coverage>=7.4",
+  "build>=1.2.1",
+  "twine>=5.0.0",
+]
+
+# Documentation tools.
+docs = [
+  "mkdocs>=1.5",
+  "mkdocs-material>=9.5",
+  "mkdocstrings[python]>=0.24",
+]
+
+[tool.setuptools]
+# src layout: Python packages are under src/
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+# Auto-discovery of qmlhc modules.
+where = ["src"]
+include = ["qmlhc*"]
+exclude = ["tests*", "examples*"]
+
+[tool.setuptools.package-data]
+# Placeholder for data files within the package.
+qmlhc = []
+
+[tool.pytest.ini_options]
+# Basic pytest configuration.
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = ["-q", "--cov=qmlhc", "--cov-report=term-missing"]
+pythonpath = ["src"]
+
+[tool.ruff]
+# Linting and formatting configuration.
+target-version = "py39"
+line-length = 100
+indent-width = 4
+extend-exclude = ["examples", "docs"]
+lint.select = ["E", "F", "W", "I", "B", "UP"]
+lint.ignore = ["E203"]
+format.quote-style = "double"
+format.indent-style = "space"
+format.docstring-code-format = true
+
+[tool.mypy]
+# Static type checking configuration.
+python_version = "3.9"
+packages = ["qmlhc"]
+ignore_missing_imports = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+strict_optional = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_any_generics = true
+
+[tool.coverage.run]
+# Coverage report logic.
+branch = true
+source = ["src/qmlhc"]
+
+[tool.coverage.report]
+# Coverage display rules.
+show_missing = true
+skip_covered = true
+fail_under = 75

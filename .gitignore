@@ -1,0 +1,82 @@
+# ===============================
+# Python and Build Artifacts
+# ===============================
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.dll
+*.dylib
+*.o
+*.a
+*.out
+
+# ===============================
+# Virtual Environments
+# ===============================
+.venv/
+venv/
+env/
+ENV/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ===============================
+# Benchmark and Runtime Outputs
+# ===============================
+.benchmarks/
+*.csv
+*.json
+*.png
+*.log
+*.tmp
+*.bak
+
+# ===============================
+# IDEs and Editors
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.DS_Store
+
+# ===============================
+# Jupyter / IPython
+# ===============================
+.ipynb_checkpoints/
+profile_default/
+*.nbconvert.ipynb
+
+# ===============================
+# Tests / Reports
+# ===============================
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.coverage
+.cache/
+.pytest_cache/
+tests/__pycache__/
+tests/integration/__pycache__/
+tests/unit/__pycache__/
+
+# ===============================
+# Documentation
+# ===============================
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# ===============================
+# OS / Misc
+# ===============================
+Thumbs.db
+ehthumbs.db
+desktop.ini
