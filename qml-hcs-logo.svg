@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="256" viewBox="0 0 1024 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">QML-HCS Logo</title>
+  <desc id="desc">Wordmark and emblem for QML-HCS: Quantum Machine Learning Hypercausal System</desc>
+  <defs>
+    <!-- Gradient for accent strokes -->
+    <linearGradient id="g-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="50%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#22C55E"/>
+    </linearGradient>
+
+    <!-- Drop shadow filter (subtle) -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-opacity="0.18"/>
+    </filter>
+
+    <!-- Reusable emblem as a symbol -->
+    <symbol id="emblem" viewBox="0 0 256 256">
+      <!-- Outer Q ring -->
+      <circle cx="128" cy="128" r="72" fill="none" stroke="url(#g-accent)" stroke-width="10" />
+      <!-- Q tail -->
+      <path d="M168 168 L196 196" fill="none" stroke="url(#g-accent)" stroke-width="10" stroke-linecap="round"/>
+      <!-- Hypercausal tri-loop (three chasing arrows) -->
+      <g transform="translate(128 128)">
+        <g fill="none" stroke="#111827" stroke-opacity="0.9" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M0 -54 A54 54 0 0 1 46 -15">
+            <animate attributeName="stroke-dasharray" values="2 200;200 200" dur="4s" repeatCount="indefinite"/>
+          </path>
+          <path d="M46 -15 A54 54 0 0 1 -28 44">
+            <animate attributeName="stroke-dasharray" values="2 200;200 200" dur="4s" begin="0.2s" repeatCount="indefinite"/>
+          </path>
+          <path d="M-28 44 A54 54 0 0 1 0 -54">
+            <animate attributeName="stroke-dasharray" values="2 200;200 200" dur="4s" begin="0.4s" repeatCount="indefinite"/>
+          </path>
+        </g>
+        <!-- Arrowheads -->
+        <g fill="url(#g-accent)">
+          <path d="M42 -22 l10 -2 -6 8 z"/>
+          <path d="M-20 44 l-7 8 10 -2 z"/>
+          <path d="M-2 -54 l2 -10 8 6 z"/>
+        </g>
+      </g>
+      <!-- Quantum orbit -->
+      <ellipse cx="128" cy="128" rx="102" ry="36" fill="none" stroke="url(#g-accent)" stroke-width="3" transform="rotate(-18 128 128)" />
+      <!-- Qubit node -->
+      <circle cx="214" cy="96" r="7" fill="#06B6D4" filter="url(#shadow)"/>
+    </symbol>
+  </defs>
+
+  <!-- Left emblem -->
+  <use href="#emblem" x="16" y="0" width="256" height="256"/>
+
+  <!-- Wordmark -->
+  <g transform="translate(300, 66)">
+    <text x="0" y="56" font-size="56" font-weight="800" font-family="Inter, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif" fill="#111827" letter-spacing="1">
+      QML-HCS
+    </text>
+    <rect x="0" y="70" width="222" height="6" rx="3" fill="url(#g-accent)"/>
+    <text x="0" y="118" font-size="20" font-weight="500" font-family="Inter, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif" fill="#374151">
+      Quantum Machine Learning Hypercausal System
+    </text>
+    <text x="0" y="146" font-size="14" font-weight="400" font-family="Inter, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif" fill="#6B7280">
+      A research‑grade library for quantum‑inspired ML with hypercausal feedback
+    </text>
+  </g>
+</svg>
