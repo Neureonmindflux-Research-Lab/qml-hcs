@@ -1,8 +1,7 @@
-
-
 import os
 import sys
 sys.path.insert(0, os.path.abspath("../src"))
+sys.path.insert(0, os.path.abspath("./examples")) 
 
 project = "qmlhc Minimal Core Demo"
 author = "Neureonmindflux Research Lab"
@@ -11,9 +10,12 @@ release = "0.1.0"
 # -- General configuration ---------------------------------------------------
 
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",  # Enables NumPy and Google style docstrings
-    "sphinx.ext.viewcode",
+    "sphinx.ext.autodoc",            
+    "sphinx.ext.napoleon",           
+    "sphinx.ext.viewcode",         
+    "sphinx_autodoc_typehints",     
+    "myst_parser",                   
+    "sphinx.ext.mathjax",           
 ]
 
 templates_path = ["_templates"]
@@ -35,3 +37,12 @@ napoleon_use_admonition_for_examples = False
 napoleon_use_admonition_for_notes = False
 napoleon_use_param = True
 napoleon_use_rtype = True
+
+
+autodoc_mock_imports = [
+    "qiskit",
+    "pennylane",
+    "torch",
+    "jax",
+    "jaxlib",
+]
