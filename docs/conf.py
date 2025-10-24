@@ -22,7 +22,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 language = "en"
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = "furo"
+html_theme = "Sphinx Book Theme"
 html_static_path = ["_static"]
 
 # -- Napoleon settings -------------------------------------------------------
