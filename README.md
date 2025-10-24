@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="https://github.com/Neureonmindflux-Research-Lab/qml-hcs/blob/main/qml-hcs-logo.svg"
+  <img src="https://raw.githubusercontent.com/Neureonmindflux-Research-Lab/qml-hcs/main/qml-hcs-logo.svg"
        alt="QML-HCS Logo"
-       width="1600"
+       width="1200"
        height="auto">
 </p>
 
