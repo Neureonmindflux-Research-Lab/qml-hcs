@@ -5,7 +5,7 @@ QML-HCS Documentation
 .. raw:: html
 
    <div align="center" style="margin-top: 40px; margin-bottom: 30px;">
-       <img src="_static/qml-hcs-logo.svg" alt="QML-HCS Banner" width="1600px"/>
+       <img src="https://github.com/Neureonmindflux-Research-Lab/qml-hcs/blob/main/docs/_static/qml-hcs-logo.svg" alt="QML-HCS Banner" width="1600px"/>
    </div>
 
 
