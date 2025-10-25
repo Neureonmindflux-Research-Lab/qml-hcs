@@ -11,7 +11,7 @@
   <i>A research-grade library for quantum-inspired machine learning with hypercausal feedback.</i>
 </p>
 
-# Quantum Machine Learning Hypercausal System (QML-HCS)
+# Quantum Machine Learning Hypercausal System 
 
 **QML-HCS** is a research-grade framework for constructing, simulating, and analyzing quantum-inspired machine learning architectures with hypercausal feedback mechanisms.  
 It integrates deterministic computation with causal inference and quantum-like superposition principles to explore emerging paradigms in Quantum Machine Learning (QML) and Causal Systems Theory.
