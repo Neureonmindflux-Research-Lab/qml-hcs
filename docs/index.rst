@@ -4,7 +4,11 @@ QML-HCS Documentation
 
 .. raw:: html
 
-![QML-HCS Logo]({static}/qml-hcs-logo.svg)
+.. image:: _static/qml-hcs-logo.svg
+   :alt: QML-HCS Logo
+   :align: center
+   :width: 1800px
+
 
 
 
