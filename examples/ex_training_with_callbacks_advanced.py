@@ -197,7 +197,8 @@ def central_diff_grads(loss_fn, params, apply_params_fn, eps: float):
     """
     Compute central finite-difference gradients for better stability.
 
-    Gradient ≈ (f(x + ε) − f(x − ε)) / (2ε)
+    Gradient ~= (f(x + eps) - f(x - eps)) / (2 * eps)
+
     """
     grads = {}
     base = {k: v.copy() for k, v in params.items()}

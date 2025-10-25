@@ -2,7 +2,7 @@
 QML-HCS Documentation
 =====================
 
-.. raw:: html
+
 
 .. image:: _static/qml-hcs-logo.svg
    :alt: QML-HCS Logo
@@ -36,13 +36,17 @@ offering a clear understanding of how *hypercausal modeling* can support researc
 
 Welcome. Explore the examples, modules, and benchmark studies to understand how QML-HCS integrates quantum reasoning into modern **quantum machine learning** methodologies.
 
-Contents
---------
+
 .. toctree::
    :maxdepth: 2
-   :caption: Examples
-
+   :caption: Contents
+   :hidden:
+   
+   getting_started
    examples
+   contributing
+   source/modules
+   GitHub Repository <https://github.com/Neureonmindflux-Research-Lab/qml-hcs>
    
 
 

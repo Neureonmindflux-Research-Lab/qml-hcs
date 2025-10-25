@@ -58,7 +58,7 @@ Relevant Code Snippets
 .. literalinclude:: ../../examples/ex_quantum_hypercore_case_study.py
    :language: python
    :linenos:
-   :lines: 300-520
+   :lines: 300-381
    :caption: Main experiment function quantum_hypercore_case_study()
 
 ---

@@ -61,7 +61,7 @@ Relevant Code Snippets
 .. literalinclude:: ../../examples/ex_training_with_callbacks_advanced.py
    :language: python
    :linenos:
-   :lines: 370-620
+   :lines: 370-471
    :caption: Main training procedure advanced_training_with_freeze() implementing freeze logic and adaptive clipping.
 
 ---

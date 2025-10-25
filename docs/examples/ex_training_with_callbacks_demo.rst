@@ -62,7 +62,7 @@ Relevant Code Snippets
 .. literalinclude:: ../../examples/ex_training_with_callbacks_demo.py
    :language: python
    :linenos:
-   :lines: 353-573
+   :lines: 353-501
    :caption: Main function stable_training_demo() (training loop with callbacks and adaptive learning)
 
 ---

@@ -110,7 +110,8 @@ docs = [
   "sphinx-copybutton",
   "sphinx-rtd-theme",
   "jinja2>=3.1",
-  "docutils>=0.20"
+  "docutils>=0.20",
+  "sphinxcontrib-programoutput>=0.18"
 ]
 
 # Testing suite (pytest + coverage)
@@ -118,7 +119,7 @@ test = [
   "numpy>=1.23",
   "pytest>=8.1",
   "pytest-cov>=4.1",
-  "coverage>=7.4"
+  "coverage>=7.4",
   "matplotlib>=3.8",
 ]
 
@@ -127,7 +128,8 @@ all = ["qmlhc[qiskit,pennylane,torch,jax,viz,dev,docs,test]"]
 
 # CLI entry point
 [project.scripts]
-qmlhc-demo = "qmlhc.examples.ex_minimal_core_demo:main"
+qmlhc-demo = "qmlhc.examples.ex_minimal_core_demo:minimal_core_demo"
+
 
 # -------------------------------
 # setuptools configuration
@@ -194,3 +196,5 @@ source = ["src/qmlhc"]
 show_missing = true
 skip_covered = true
 fail_under = 75
+
+

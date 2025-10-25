@@ -45,7 +45,7 @@ Relevant Code Snippets
 .. literalinclude:: ../../examples/ex_minimal_core_demo.py
    :language: python
    :linenos:
-   :lines: 99-177
+   :lines: 99-174
    :caption: Function minimal_core_demo (main flow and loss computation)
 
 Functional Explanation
