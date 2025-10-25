@@ -1,23 +1,26 @@
-
-
-
+# -------------------------------
+# Build system configuration
+# -------------------------------
 [build-system]
-# Uses setuptools for standard Python packaging.
 requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
+# -------------------------------
+# Core project metadata
+# -------------------------------
 [project]
 name = "qmlhc"
 version = "0.1.0"
 description = "Quantum Machine Learning with hypercausal feedback for non-stationary environments."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "BSD 3-Clause License" }
+license = { text = "BSD-3-Clause" }
 
 authors = [
   { name = "Neureonmindflux Research Lab", email = "contact@neureonmindfluxlab.org" }
 ]
 
+# Search tags for PyPI and documentation
 keywords = [
   "quantum-machine-learning",
   "hypercausal",
@@ -25,8 +28,13 @@ keywords = [
   "forecasting",
   "control",
   "anomaly-detection",
+  "quantum computing",
+  "quantum ai",
+  "qnn",
+  "physics-informed-ai"
 ]
 
+# Official PyPI classifiers
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
@@ -38,89 +46,115 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
-  "Topic :: Scientific/Engineering :: Quantum Machine Learning",
-  "Topic :: Scientific/Engineering :: Hypercausal System",
-  "Topic :: Scientific/Engineering :: Neural Networks",
-  "Topic :: Scientific/Engineering :: Quantum Computing",
   "Topic :: Scientific/Engineering :: Physics",
-  "Topic :: Scientific/Engineering :: Information Analysis",
-  "Topic :: Scientific/Engineering :: Simulation",
-  "Topic :: Scientific/Engineering :: Complex Systems",
-  "Topic :: Scientific/Engineering :: Systems Theory",
-  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Software Development :: Libraries :: Scientific"
+  "Framework :: JAX",
+  "Framework :: PyTorch",
+  "Framework :: PennyLane"
 ]
 
-
-# Core dependencies for numerical and typing utilities.
+# -------------------------------
+# Base runtime dependencies
+# -------------------------------
 dependencies = [
   "numpy>=1.23",
   "scipy>=1.10",
-  "typing-extensions>=4.6",
+  "typing-extensions>=4.6"
 ]
 
+# -------------------------------
+# Project URLs
+# -------------------------------
 [project.urls]
-Homepage = ""
+Homepage = "https://github.com/Neureonmindflux-Research-Lab/qml-hcs"
 Issues = "https://github.com/Neureonmindflux-Research-Lab/qml-hcs/issues"
-Documentation = ""
+Documentation = "https://qml-hcs.readthedocs.io"
 
+# -------------------------------
+# Optional dependency groups
+# -------------------------------
 [project.optional-dependencies]
-# Optional quantum backends.
+# Quantum backends
 qiskit = ["qiskit>=1.2"]
 pennylane = ["pennylane>=0.36"]
 
-# Optional ML frameworks.
+# Machine learning frameworks
 torch = ["torch>=2.2"]
 jax = ["jax>=0.4.23", "jaxlib>=0.4.23"]
 
-# Optional visualization tools.
-viz = [
+# Visualization utilities
+viz = ["matplotlib>=3.8"]
+
+# Developer tools (for local builds, linting, packaging)
+dev = [
+  "numpy>=1.23",
+  "matplotlib>=3.8",
+  "ruff>=0.6.0",
+  "mypy>=1.7.0",
+  "build>=1.2.1",
+  "twine>=5.0.0"
+]
+
+# Full documentation stack (Sphinx + themes + parsers)
+docs = [
+  "numpy>=1.23",
+  "matplotlib>=3.8",
+  "sphinx>=7.3",
+  "sphinx-book-theme",
+  "furo",
+  "myst-parser",
+  "sphinx-autodoc-typehints",
+  "sphinx-copybutton",
+  "sphinx-rtd-theme",
+  "jinja2>=3.1",
+  "docutils>=0.20"
+]
+
+# Testing suite (pytest + coverage)
+test = [
+  "numpy>=1.23",
+  "pytest>=8.1",
+  "pytest-cov>=4.1",
+  "coverage>=7.4"
   "matplotlib>=3.8",
 ]
 
-# Developer tools.
-dev = [
-  "ruff>=0.6.0",
-  "mypy>=1.7.0",
-  "pytest>=8.1",
-  "pytest-cov>=4.1",
-  "coverage>=7.4",
-  "build>=1.2.1",
-  "twine>=5.0.0",
-]
+# Convenience meta-extra: install everything
+all = ["qmlhc[qiskit,pennylane,torch,jax,viz,dev,docs,test]"]
 
-# Documentation tools.
-docs = [
-  "mkdocs>=1.5",
-  "mkdocs-material>=9.5",
-  "mkdocstrings[python]>=0.24",
-]
+# CLI entry point
+[project.scripts]
+qmlhc-demo = "qmlhc.examples.ex_minimal_core_demo:main"
 
+# -------------------------------
+# setuptools configuration
+# -------------------------------
 [tool.setuptools]
-# src layout: Python packages are under src/
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
-# Auto-discovery of qmlhc modules.
 where = ["src"]
-include = ["qmlhc*"]
-exclude = ["tests*", "examples*"]
+include = ["qmlhc", "qmlhc.*"]
+exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-# Placeholder for data files within the package.
-qmlhc = []
+qmlhc = ["py.typed"]
 
+# -------------------------------
+# pytest configuration
+# -------------------------------
 [tool.pytest.ini_options]
-# Basic pytest configuration.
 minversion = "8.0"
 testpaths = ["tests"]
 addopts = ["-q", "--cov=qmlhc", "--cov-report=term-missing"]
-pythonpath = ["src"]
 
+# -------------------------------
+# Ruff configuration (lint + format)
+# -------------------------------
 [tool.ruff]
-# Linting and formatting configuration.
 target-version = "py39"
 line-length = 100
 indent-width = 4
@@ -131,8 +165,10 @@ format.quote-style = "double"
 format.indent-style = "space"
 format.docstring-code-format = true
 
+# -------------------------------
+# mypy configuration (static typing)
+# -------------------------------
 [tool.mypy]
-# Static type checking configuration.
 python_version = "3.9"
 packages = ["qmlhc"]
 ignore_missing_imports = true
@@ -147,13 +183,14 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_any_generics = true
 
+# -------------------------------
+# Coverage configuration
+# -------------------------------
 [tool.coverage.run]
-# Coverage report logic.
 branch = true
 source = ["src/qmlhc"]
 
 [tool.coverage.report]
-# Coverage display rules.
 show_missing = true
 skip_covered = true
 fail_under = 75

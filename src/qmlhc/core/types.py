@@ -4,7 +4,7 @@
 Core Types and Protocols
 ------------------------
 Common type aliases, Protocols, and lightweight data structures shared across
-the package. Comments are limited to logic explanations only.
+the package. 
 """
 
 from __future__ import annotations

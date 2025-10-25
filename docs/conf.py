@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath("../src"))
-sys.path.insert(0, os.path.abspath("./examples")) 
+sys.path.insert(0, os.path.abspath('..'))
 
 project = "qmlhc Minimal Core Demo"
 author = "Neureonmindflux Research Lab"
@@ -15,7 +15,8 @@ extensions = [
     "sphinx.ext.viewcode",         
     "sphinx_autodoc_typehints",     
     "myst_parser",                   
-    "sphinx.ext.mathjax",           
+    "sphinx.ext.mathjax",   
+    "sphinxcontrib.programoutput",        
 ]
 
 templates_path = ["_templates"]
@@ -26,6 +27,8 @@ language = "en"
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
+html_logo = "_static/qml-hcs-icon.svg"
+
 
 # -- Napoleon settings -------------------------------------------------------
 napoleon_google_docstring = False
