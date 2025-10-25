@@ -4,7 +4,7 @@
 Contrafactual Anticipators
 --------------------------
 Wrappers that synthesize structured counterfactual futures on top of a base
-projector and optional perturbations. Comments are limited to logic only.
+projector and optional perturbations. 
 """
 
 from __future__ import annotations

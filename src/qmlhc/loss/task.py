@@ -5,7 +5,6 @@ Task-Level Losses
 -----------------
 Standard objectives used for training quantum–hypercausal models.
 
-Comments are limited to logic explanations only.
 """
 
 from __future__ import annotations

@@ -10,7 +10,7 @@ Two modes are supported:
 - ``"variance"`` (default): mean squared deviation from the per-dimension mean.
 - ``"mad"``: mean absolute deviation from the per-dimension mean.
 
-Comments are limited to logic explanations only.
+
 """
 
 from __future__ import annotations

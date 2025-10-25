@@ -10,7 +10,6 @@ Provided metrics
 - ``early_roc_auc``: ROC-AUC restricted to an early-detection horizon.
 - ``recall_at_lag``: Recall counting predictions made within a lag window.
 
-Comments are limited to logic explanations only.
 """
 
 from __future__ import annotations
