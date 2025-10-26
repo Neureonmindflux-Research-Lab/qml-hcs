@@ -7,12 +7,8 @@
 ![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)
 ![Framework](https://img.shields.io/badge/framework-quantum--machine--learning-purple?style=flat-square)
 ![Backend](https://img.shields.io/badge/backend-python%20%7C%20C%2B%2B-lightgrey?style=flat-square)
-
-
-
-
-
-
+[![Build](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/actions/workflows/python-package.yml/badge.svg)](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/actions)
+![OS Support](https://img.shields.io/badge/OS-Linux%20%7C%20macOS%20%7C%20Windows-blue?style=flat-square)
 
 
 <p align="center">
