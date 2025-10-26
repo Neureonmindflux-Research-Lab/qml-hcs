@@ -1,3 +1,6 @@
+[![PyPI version](https://badge.fury.io/py/qml-hcs.svg)](https://pypi.org/project/qml-hcs/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17445484.svg)](https://doi.org/10.5281/zenodo.17445484)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Neureonmindflux-Research-Lab/qml-hcs/main/qml-hcs-logo.svg"
        alt="QML-HCS Logo"
