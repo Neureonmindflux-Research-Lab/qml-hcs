@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 # Core project metadata
 # -------------------------------
 [project]
-name = "qmlhc"
+name = "qml-hcs"
 version = "0.1.0"
 description = "Quantum Machine Learning with hypercausal feedback for non-stationary environments."
 readme = "README.md"
