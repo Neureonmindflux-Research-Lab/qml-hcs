@@ -5,6 +5,12 @@
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/qml-hcs?style=flat-square)](https://pypi.org/project/qml-hcs/)
 [![License](https://img.shields.io/pypi/l/qml-hcs?style=flat-square)](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/blob/main/LICENSE)
 ![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)
+![Framework](https://img.shields.io/badge/framework-quantum--machine--learning-purple?style=flat-square)
+![Backend](https://img.shields.io/badge/backend-python%20%7C%20C%2B%2B-lightgrey?style=flat-square)
+
+
+
+
 
 
 
