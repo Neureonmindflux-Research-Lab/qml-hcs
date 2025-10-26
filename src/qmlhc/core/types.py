@@ -11,7 +11,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Mapping, Sequence, Protocol, runtime_checkable, TypedDict
+from typing import Any, Mapping, Sequence, Protocol, runtime_checkable, TypedDict, Union
+
 
 import numpy as np
 
@@ -21,7 +22,7 @@ Scalar = float  # loss values, metrics, probabilities
 Array = np.ndarray  # primary numeric container across the library
 
 # Accepts ndarray or simple Python sequences convertible to ndarray.
-TensorLike = Array | Sequence[float]
+TensorLike = Union[Array, Sequence[float]]
 
 
 # ---- Capability and run metadata ---------------------------------------------
