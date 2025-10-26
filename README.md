@@ -1,5 +1,13 @@
 [![PyPI version](https://badge.fury.io/py/qml-hcs.svg)](https://pypi.org/project/qml-hcs/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17445484.svg)](https://doi.org/10.5281/zenodo.17445484)
+[![Documentation Status](https://readthedocs.org/projects/qml-hcs/badge/?version=latest)](https://qml-hcs.readthedocs.io/en/latest/?badge=latest)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qml-hcs?style=flat-square)](https://pypi.org/project/qml-hcs/)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/qml-hcs?style=flat-square)](https://pypi.org/project/qml-hcs/)
+[![License](https://img.shields.io/pypi/l/qml-hcs?style=flat-square)](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/blob/main/LICENSE)
+![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)
+
+
+
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Neureonmindflux-Research-Lab/qml-hcs/main/qml-hcs-logo.svg"
