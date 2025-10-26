@@ -91,7 +91,7 @@ branches (K):       3
 HCModel.forward() matches single-node result ✔
 ```
 
-Refer to the [Getting Started Guide](docs/getting_started.rst) for further instructions.
+Refer to the [Getting Started Guide](https://qml-hcs.readthedocs.io/en/latest/getting_started.html) for further instructions.
 
 ---
 
@@ -105,7 +105,7 @@ The repository provides several scientifically oriented demonstrations:
 - Training with callback telemetry and adaptive losses  
 - Coherence and consistency experiments under stochastic variation  
 
-All examples are documented in the [Examples Section](docs/examples.rst).
+All examples are documented in the [Examples Section](https://qml-hcs.readthedocs.io/en/latest/examples.html).
 
 ---
 
@@ -137,7 +137,7 @@ Researchers and developers can improve QML-HCS by adding new modules, extending 
 4. Provide detailed documentation and minimal runnable examples.  
 5. Submit a well-described pull request for review.
 
-Further details are available in the [Contributing Section](docs/contributing.rst).
+Further details are available in the [Contributing Section](https://qml-hcs.readthedocs.io/en/latest/contributing.html).
 
 ---
 
@@ -193,7 +193,7 @@ The project benefits from ongoing collaboration and peer feedback within the ope
 
 Full documentation is available here:
 
-[**QML-HCS Official Documentation**](https://neureonmindflux-research-lab.github.io/qml-hcs/)
+[**QML-HCS Official Documentation**](https://qml-hcs.readthedocs.io/en/latest/index.html)
 
 ---
 ## Contact
