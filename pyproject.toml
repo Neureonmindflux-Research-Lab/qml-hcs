@@ -121,7 +121,25 @@ test = [
 ]
 
 # Convenience meta-extra: install everything
-all = ["qmlhc[qiskit,pennylane,torch,jax,viz,dev,docs,test]"]
+all = [
+  # quantum backends
+  "qiskit>=1.2",
+  "pennylane>=0.36",
+  # ML frameworks
+  "torch>=2.2",
+  "jax>=0.4.23", "jaxlib>=0.4.23",
+  # viz
+  "matplotlib>=3.8",
+  # dev
+  "ruff>=0.6.0", "mypy>=1.7.0", "build>=1.2.1", "twine>=5.0.0",
+  # docs
+  "sphinx>=7.3", "sphinx-book-theme", "furo", "myst-parser",
+  "sphinx-autodoc-typehints", "sphinx-copybutton", "sphinx-rtd-theme",
+  "jinja2>=3.1", "docutils>=0.20", "sphinxcontrib-programoutput>=0.18",
+  # test
+  "pytest>=8.1", "pytest-cov>=4.1", "coverage>=7.4", "numpy>=1.23"
+]
+
 
 # CLI entry point
 [project.scripts]
