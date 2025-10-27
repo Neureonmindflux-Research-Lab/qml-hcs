@@ -42,12 +42,19 @@ Welcome. Explore the examples, modules, and benchmark studies to understand how 
    :caption: Contents
    :hidden:
    
+   Overview <self>
    getting_started
    examples
+   architecture
+   theory
+   integration
+   benchmarks
+   changelog
    contributing
-   source/modules
+   modules/api_overview
    GitHub Repository <https://github.com/Neureonmindflux-Research-Lab/qml-hcs>
    
+
 
 
 
