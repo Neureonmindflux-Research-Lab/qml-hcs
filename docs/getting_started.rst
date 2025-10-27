@@ -1,7 +1,7 @@
 .. _getting_started:
 
-Getting Started
-===============
+Installation
+============
 
 This section guides you through installing, configuring, and verifying **QML-HCS** —  
 the *Quantum Machine Learning Hypercausal System*.  

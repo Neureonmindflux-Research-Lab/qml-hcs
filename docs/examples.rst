@@ -1,7 +1,7 @@
 .. _examples:
 
-Examples
-========
+Quickstart / Tutorials
+======================
 
 This section contains independent runnable examples of the QML-HCS system.
 Each link below opens a separate page with the full documentation of that example.
