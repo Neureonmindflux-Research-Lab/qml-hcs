@@ -14,4 +14,5 @@ __all__ = [
     "robustness",
     "early_roc_auc",
     "recall_at_lag",
+    "rmse"
 ]
