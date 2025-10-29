@@ -11,6 +11,8 @@
 ![OS Support](https://img.shields.io/badge/OS-Linux%20%7C%20macOS%20%7C%20Windows-blue?style=flat-square)
 [![CodeQL](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/actions/workflows/codeql.yml/badge.svg)](https://github.com/Neureonmindflux-Research-Lab/qml-hcs/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/Neureonmindflux-Research-Lab/qml-hcs/graph/badge.svg?token=<TOKEN>)](https://codecov.io/gh/Neureonmindflux-Research-Lab/qml-hcs)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/qml-hcs?period=total&units=INTERNATIONAL_SYSTEM&left_color=LIGHTGREY&right_color=BLACK&left_text=downloads)](https://pepy.tech/projects/qml-hcs)
+
 
 
 
