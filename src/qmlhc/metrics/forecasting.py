@@ -113,3 +113,9 @@ def delta_lag(y_true_seq: Array, y_pred_seq: Array) -> float:
     sign_pred = np.sign(dt_pred)
     alignment = (sign_true * sign_pred).mean()
     return float(alignment)
+
+def rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+    """Root Mean Squared Error (RMSE)."""
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    return float(np.sqrt(np.mean((y_pred - y_true) ** 2)))
