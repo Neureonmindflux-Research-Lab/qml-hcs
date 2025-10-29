@@ -1,7 +1,7 @@
 
 # Public re-exports for metric modules.
 
-from .forecasting import mape, mase, delta_lag
+from .forecasting import mape, mase, delta_lag, rmse
 from .control import overshoot, settling_time, robustness
 from .anomalies import early_roc_auc, recall_at_lag
 
