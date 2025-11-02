@@ -139,6 +139,8 @@ def test_pennylane_backend_fake_runs_and_projects():
     be.encode(x)
     s = be.run()
     fut = be.project_future(s, branches=5)
+    fut2 = be.project_future(s, branches=0)
+    assert fut2.shape == (2, 2)
     caps = be.capabilities()
 
     assert s.shape == (2,)
@@ -238,6 +240,10 @@ def test_pennylane_backend_run_batch_shapes():
     out = be.run_batch(X)
     assert out.shape == (3, 3)
     assert np.all(np.isfinite(out)), "Output contains NaNs or Infs"
+    with pytest.raises(ValueError):
+        be.run_batch(np.zeros(3))  
+    with pytest.raises(ValueError):
+        be.run_batch(np.zeros((2, 2)))  
 
 
 def test_pennylane_backend_capabilities_flags_shots():
@@ -266,3 +272,6 @@ def test_pennylane_backend_capabilities_noise_override():
     be = PennyLaneBackend(BackendConfig(output_dim=2), num_qubits=2, supports_noise=True)
     caps = be.capabilities()
     assert caps["supports_noise"] is True
+    be2 = PennyLaneBackend(BackendConfig(output_dim=2), num_qubits=2, device_name="default.mixed")
+    caps2 = be2.capabilities()
+    assert caps2["supports_noise"] is True
