@@ -15,12 +15,19 @@ dimension equal to the number of qubits (and therefore to ``output_dim``).
 Examples
 --------
 >>> import numpy as np
->>> from qmlhc.backends.pennylane_backend_adapter import PennyLaneBackend
+>>> from qmlhc.core.backend import BackendConfig
+>>> from qmlhc.backends.pennylane_backend import PennyLaneBackend
 >>> cfg = BackendConfig(output_dim=4, shots=None)
 >>> be = PennyLaneBackend(cfg, num_qubits=4, device_name="default.qubit")
 >>> be.encode(np.array([0.1, 0.2, 0.3, 0.4]))
 >>> s_t = be.run()
 >>> fut = be.project_future(s_t, branches=5)
+>>> X = np.stack([np.zeros(4), np.ones(4)*0.1], axis=0)      # Example: batch execution
+>>> be.run_batch(X).shape  # (B, D)
+(2, 4)
+>>> caps = be.capabilities()                          # Check device and backend capabilities (values depend on your device/config)
+>>> caps["using_shots"], caps["supports_noise"]
+(False, False)
 """
 
 from __future__ import annotations
@@ -49,11 +56,24 @@ class PennyLaneBackend(QuantumBackend):
     shots : int or None, optional
         Number of device shots (``None`` for analytic mode). If ``None``,
         falls back to ``config.shots``.
-
+    supports_noise : bool or None, optional
+        Manual override for noise support in ``capabilities()``. If ``None`` (default),
+        a heuristic is used based on the device; if ``True``/``False`` the reported
+        capability is forced accordingly.  
     Raises
     ------
     ValueError
         If ``output_dim`` does not match ``num_qubits``.
+
+    Notes
+    -----
+    API usage in brief (details in the RST):
+    - Call ``encode(x)`` with shape ``(D,)`` before ``run``.
+    - ``D`` must match ``num_qubits`` and ``config.output_dim``.
+    - Analytic mode is deterministic (``shots=None``); sampling mode (``shots>0``) introduces variance.
+    - ``run_batch(X)`` expects shape ``(B, D)`` and returns ``(B, D)``.
+    - ``supports_noise`` (init arg) lets you override noise reporting in ``capabilities()``.
+
     """
 
     def __init__(
@@ -62,12 +82,14 @@ class PennyLaneBackend(QuantumBackend):
         num_qubits: int,
         device_name: str = "default.qubit",
         shots: Optional[int] = None,
+        supports_noise: Optional[bool] = None,
     ) -> None:
         super().__init__(config)
         self._num_qubits = int(num_qubits)
 
         dev_shots = shots if shots is not None else self._cfg.shots
         self._dev = qml.device(device_name, wires=self._num_qubits, shots=dev_shots)
+        self._supports_noise_override = supports_noise
 
         if self.output_dim != self._num_qubits:
             raise ValueError(
@@ -99,6 +121,11 @@ class PennyLaneBackend(QuantumBackend):
         ----------
         params : dict or None, optional
             Unused in this minimal adapter; reserved for future extensions.
+            
+        Note
+        ----
+        ``encode(x)`` must be called beforehand. The base class enforces this
+        via ``_require_input()`` and raises if the input is missing.
 
         Returns
         -------
@@ -108,6 +135,23 @@ class PennyLaneBackend(QuantumBackend):
         x = self._require_input()
         out = np.asarray(self._circuit(x), dtype=float).reshape(-1)
         return self._validate_state(out)
+    
+    def run_batch(self, X: Array) -> Array:
+        """
+        Execute a batch of inputs with shape ``(B, D)`` and return a matrix of
+        shape ``(B, D)``. Requires ``D == num_qubits``. Validation of the batch
+        result is delegated to the base class.
+
+        Note
+        ----
+        The batch must contain at least one row; empty batches are not supported.
+
+        """
+        X = np.asarray(X, dtype=float)
+        if X.ndim != 2 or X.shape[1] != self._num_qubits:
+            raise ValueError(f"X must be (B, {self._num_qubits}), got {X.shape}.")
+        outs = [np.asarray(self._circuit(x), dtype=float).reshape(-1) for x in X]
+        return self._validate_branches(np.stack(outs, axis=0))
 
     def project_future(self, s_t: np.ndarray, branches: int = 2) -> Array:
         """
@@ -125,6 +169,11 @@ class PennyLaneBackend(QuantumBackend):
         -------
         Array
             Future states matrix of shape ``(K, D)``.
+        Note
+        ----
+        This is a device-agnostic, low-cost projection utility. It does not
+        change circuit parameters nor implement physical time evolution.
+
         """
         s = self._validate_state(s_t)
         k = max(2, int(branches))
@@ -141,6 +190,14 @@ class PennyLaneBackend(QuantumBackend):
         Capabilities
             Capability dictionary including device version, qubit count,
             shot/noise support, batching, and gradient method.
+        Notes
+        -----
+        - ``max_qubits``: number of qubits configured for this instance.
+        - ``supports_shots``: device family accepts finite shots (capability).
+        - ``using_shots``: this instance currently samples (``shots`` is not None).
+        - ``supports_noise``: noise support (override takes precedence).
+        - ``supports_batch``: batch API is available via ``run_batch``.
+
         """
         caps = super().capabilities()
         caps.update(
@@ -148,9 +205,13 @@ class PennyLaneBackend(QuantumBackend):
                 "backend_name": "PennyLaneDevice",
                 "backend_version": qml.__version__,
                 "max_qubits": self._num_qubits,
-                "supports_shots": self._dev.shots is not None,
-                "supports_noise": hasattr(self._dev, "noise")
-                or "default.mixed" in str(self._dev.name),
+                "supports_shots": True,  # PennyLane devices generally accept finite shots
+                "using_shots": (self._dev.shots is not None),
+                "supports_noise": (
+                    self._supports_noise_override
+                    if self._supports_noise_override is not None
+                    else (hasattr(self._dev, "noise") or "default.mixed" in str(self._dev.name))
+                ),
                 "supports_batch": True,
                 "gradient": GradientKind.PARAMETER_SHIFT,
             }
