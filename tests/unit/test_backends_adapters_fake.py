@@ -226,3 +226,43 @@ def test_cpp_backend_missing_method_raises_attributeerror():
 
     with pytest.raises(AttributeError):
         _ = CppBackend(BackendConfig(output_dim=1), bridge_module=BrokenBridge())
+
+def test_pennylane_backend_run_batch_shapes():
+    """Verify that run_batch returns correct (B, D) shape and validates input."""
+    from qmlhc.backends.pennylane_backend import PennyLaneBackend
+    from qmlhc.core.backend import BackendConfig
+    import numpy as np
+
+    be = PennyLaneBackend(BackendConfig(output_dim=3, shots=None), num_qubits=3)
+    X = np.stack([np.zeros(3), np.ones(3) * 0.1, np.arange(3) * 0.01], axis=0)  # (B=3, D=3)
+    out = be.run_batch(X)
+    assert out.shape == (3, 3)
+    assert np.all(np.isfinite(out)), "Output contains NaNs or Infs"
+
+
+def test_pennylane_backend_capabilities_flags_shots():
+    """Ensure supports_shots and using_shots flags are reported correctly."""
+    from qmlhc.backends.pennylane_backend import PennyLaneBackend
+    from qmlhc.core.backend import BackendConfig
+
+    # Analytic (deterministic) mode
+    be = PennyLaneBackend(BackendConfig(output_dim=2, shots=None), num_qubits=2)
+    caps = be.capabilities()
+    assert caps["supports_shots"] is True
+    assert caps["using_shots"] is False
+
+    # Sampling mode
+    be2 = PennyLaneBackend(BackendConfig(output_dim=2, shots=100), num_qubits=2)
+    caps2 = be2.capabilities()
+    assert caps2["supports_shots"] is True
+    assert caps2["using_shots"] is True
+
+
+def test_pennylane_backend_capabilities_noise_override():
+    """Validate that the manual supports_noise override takes precedence."""
+    from qmlhc.backends.pennylane_backend import PennyLaneBackend
+    from qmlhc.core.backend import BackendConfig
+
+    be = PennyLaneBackend(BackendConfig(output_dim=2), num_qubits=2, supports_noise=True)
+    caps = be.capabilities()
+    assert caps["supports_noise"] is True
