@@ -90,13 +90,13 @@ class HCModel:
         Returns
         -------
         tuple
-            (s_t, ŝ_{t+1}, info)
-            - s_t : Array
-                Current state.
-            - ŝ_{t+1} : Array
-                Projected next-state prediction.
-            - info : dict
-                Additional node diagnostics.
+            (``s_t``, ``ŝ_{t+1}``, ``info``)
+            ``s_t`` : Array
+            Current state.
+            ``ŝ_{t+1}`` : Array
+            Projected next-state prediction.
+            ``info`` : dict
+            Additional node diagnostics.
         """
         k = self._resolve_branches(branches)
         s_t, s_tp1_hat, info = self._nodes[0].forward(x_t, s_tm1=s_tm1, branches=k)
@@ -124,20 +124,20 @@ class HCModel:
         x_t : TensorLike
             Current input vector at time t.
         s_tm1 : TensorLike or None, optional
-            Previous state (t−1), by default ``None``.
+            Previous state (t-1), by default ``None``.
         branches : int or None, optional
             Number of future branches (K). Uses ``default_branches`` if ``None``.
 
         Returns
         -------
         tuple
-            (s_t, ŝ_{t+1}, infos)
-            - s_t : Array
-                Final state after the last node.
-            - ŝ_{t+1} : Array
-                Projected next-state prediction from the last node.
-            - infos : list[dict]
-                Per-node diagnostic information.
+            (``s_t``, ``ŝ_{t+1}``, ``infos``)
+            ``s_t`` : Array
+            Final state after the last node.
+            ``ŝ_{t+1}`` : Array
+            Projected next-state prediction from the last node.
+            ``infos`` : list[dict]
+            Per-node diagnostic information.
         """
         k = self._resolve_branches(branches)
         infos: List[Mapping[str, Any]] = []
@@ -183,13 +183,13 @@ class HCModel:
         Returns
         -------
         tuple
-            (states, futures, infos)
-            - states : list[Array]
-                Sequence of current states.
-            - futures : list[Array]
-                Sequence of projected next states.
-            - infos : list[Any]
-                Per-step diagnostic information.
+            (``states``, ``futures``, ``infos``)
+            ``states`` : list[Array]
+            Sequence of current states.
+            ``futures`` : list[Array]
+            Sequence of projected next states.
+            ``infos`` : list[Any]
+            Per-step diagnostic information.
         """
         k = self._resolve_branches(branches)
         states: List[Array] = []
@@ -222,7 +222,7 @@ class HCModel:
         ----------
         branches : int or None
             Optional override value.
-
+            
         Returns
         -------
         int

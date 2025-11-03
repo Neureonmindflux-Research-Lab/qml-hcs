@@ -6,9 +6,10 @@ Core Backend Base
 Backend interface implementations wired to the core Protocols.
 
 This module defines:
+
 - ``BackendConfig``: immutable configuration for a backend instance.
 - ``QuantumBackend``: abstract base class that enforces the backend contract
-  and offers shared validation utilities for inputs, states, and future branches.
+  and offers shared validation utilities for inputs, states, and future branches.  
 """
 
 from __future__ import annotations
