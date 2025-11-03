@@ -14,12 +14,29 @@ measured bitstring counts.
 Example
 -------
 >>> import numpy as np
->>> from qmlhc.backends.qiskit_backend_adapter import QiskitBackend
+>>> from qmlhc.core.backend import BackendConfig
+>>> from qmlhc.backends.qiskit_backend import QiskitBackend
 >>> cfg = BackendConfig(output_dim=3, shots=1024)
 >>> be = QiskitBackend(cfg, num_qubits=3)
->>> be.encode(np.array([0.1, 0.2, 0.3]))
+>>> be.encode(np.array([0.1, 0.2, 0.3], dtype=float))
 >>> s_t = be.run()
 >>> fut = be.project_future(s_t, branches=5)
+>>> s_t.shape
+(3,)
+>>> fut.shape
+(5, 3)
+
+Note
+----
+This example demonstrates the standard Qiskit-based workflow within the unified
+``QuantumBackend`` API: initialize the backend, encode a numeric state, execute
+the sampling run, and obtain future projections.
+
+Because execution relies on the :class:`~qiskit.primitives.Sampler`, the numerical
+outputs are **stochastic**. While the individual expectation-like values in ``s_t``
+and ``fut`` vary across runs, their **dimensional structure** and **bounded range**
+(within [-1, 1]) remain invariant. This behavior reflects the physical sampling
+nature of quantum backends rather than a computational instability.
 """
 
 from __future__ import annotations
@@ -53,6 +70,12 @@ class QiskitBackend(QuantumBackend):
     ------
     ValueError
         If ``output_dim`` does not match ``num_qubits``.
+    Notes
+    -----
+    - Execution is always **shot-based**; there is no analytic (deterministic) mode.
+    - If ``config.shots`` is not provided, defaults to **1024**.
+    - The default circuit applies one ``RY`` per qubit and a ``barrier`` (no entanglement).
+    - Qiskit bitstrings are **big-endian** and are reversed when mapping bits → wires.
     """
 
     def __init__(
@@ -100,8 +123,9 @@ class QiskitBackend(QuantumBackend):
 
         Notes
         -----
-        The vector is computed from bitstring counts as a signed average per wire:
-        for each bitstring, a '1' contributes +1 and a '0' contributes -1.
+        - ``encode(x)`` must be called before ``run()``; this is enforced by ``_require_input()``.
+        - Uses ``shots = config.shots or 1024`` when running the sampler.
+        - Computes signed per-wire averages ('1'→+1, '0'→−1) after endian correction.
 
         Parameters
         ----------
