@@ -102,11 +102,11 @@ class HCGraph:
         tuple
             ``(s_map, s_hat_map, info_map)`` where:
             - ``s_map`` : dict[str, Array]
-                Per-node current state ``S_t``.
+            Per-node current state ``S_t``.
             - ``s_hat_map`` : dict[str, Array]
-                Per-node projected future state ``Ŝ_{t+1}``.
+            Per-node projected future state ``Ŝ_{t+1}``.
             - ``info_map`` : dict[str, Mapping[str, Any]]
-                Auxiliary per-node diagnostics.
+            Auxiliary per-node diagnostics.
 
         Raises
         ------

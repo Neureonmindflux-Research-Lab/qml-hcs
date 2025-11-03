@@ -140,7 +140,7 @@ class MinRiskPolicy(ProjectionPolicy):
             ``(rep, diag)`` where:
             - ``rep`` is the selected branch with shape ``(D,)``.
             - ``diag`` contains
-              ``{"policy": "min-risk", "branches": K, "chosen_index": i, "min_score": s}``.
+            - ``{"policy": "min-risk", "branches": K, "chosen_index": i, "min_score": s}``.
 
         Raises
         ------

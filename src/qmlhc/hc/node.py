@@ -45,10 +45,10 @@ class HCNode(HypercausalNodeProtocol):
     """
     Concrete implementation of a hypercausal node.
 
-    This node combines:
-    - A ``QuantumBackend`` that generates the current and future states.
-    - An optional ``ProjectionPolicy`` that aggregates multiple candidate
-      futures into one representative vector.
+    This node combines a ``QuantumBackend``, which generates both the current and
+    future states, together with an optional ``ProjectionPolicy`` that aggregates
+    multiple candidate futures into a single representative vector.
+
 
     Notes
     -----
@@ -112,15 +112,15 @@ class HCNode(HypercausalNodeProtocol):
         tuple
             ``(S_t, Ŝ_{t+1}, info)`` where:
             - ``S_t`` : Array
-                Current state vector.
+            Current state vector.
             - ``Ŝ_{t+1}`` : Array
-                Aggregated representative future.
+            Aggregated representative future.
             - ``info`` : dict
-                Additional metadata including:
-                - ``s_tm1`` : previous state (if provided)
-                - ``branches`` : matrix of candidate futures
-                - ``policy`` : policy name
-                - ``diagnostics`` : policy diagnostics or aggregation info
+            Additional metadata including:
+            -``s_tm1`` : previous state (if provided)
+            - ``branches`` : matrix of candidate futures
+            - ``policy`` : policy name
+            - ``diagnostics`` : policy diagnostics or aggregation info
         """
         # Encode current input into the backend
         self._backend.encode(x_t)
