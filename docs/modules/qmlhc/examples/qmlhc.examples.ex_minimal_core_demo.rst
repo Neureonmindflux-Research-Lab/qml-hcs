@@ -5,4 +5,5 @@ Minimal Core Demo
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 

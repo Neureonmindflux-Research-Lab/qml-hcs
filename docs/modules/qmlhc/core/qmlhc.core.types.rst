@@ -5,4 +5,5 @@ Core Types
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 

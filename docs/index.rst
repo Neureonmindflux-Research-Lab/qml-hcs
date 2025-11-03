@@ -1,4 +1,3 @@
-
 QML-HCS Documentation
 =====================
 
