@@ -42,6 +42,19 @@ Conceptual Foundations
    hyperbolic tangent ensures bounded propagation when generating
    prospective branches.
 
+.. note::
+   **Interaction with Non-Stationary Loops**
+
+   In non-stationary experiments, ``PennyLaneBackend`` remains analytic and
+   deterministic (``shots=None``). Environment drift is applied to the model
+   input *before* calling ``forward(...)``. The backend then recomputes exact
+   expectation values under the new conditions, while the hypercausal controller
+   (e.g., a dynamic feedback gain ``alpha``) adapts based on coherence and
+   consistency losses. This design preserves stable gradients and deterministic
+   learning behavior, yet allows the overall QML-HCS system to react to
+   non-stationary environments.
+
+
 Integration Guidelines
 ----------------------
 
