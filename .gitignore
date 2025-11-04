@@ -28,9 +28,7 @@ dist/
 # Benchmark and Runtime Outputs
 # ===============================
 .benchmarks/
-*.csv
 *.json
-*.png
 *.log
 *.tmp
 *.bak
