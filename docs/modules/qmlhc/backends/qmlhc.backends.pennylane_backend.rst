@@ -69,6 +69,19 @@ Integration Guidelines
   :py:class:`~qmlhc.core.backend.QuantumBackend`, ensuring consistent
   error handling and output verification.
 
+Installation
+------------
+PennyLane is included as an optional dependency of ``qml-hcs``.  
+If you prefer to install it manually, run:
+
+.. code-block:: bash
+
+   pip install pennylane
+
+Ensure Python ≥ 3.9 and that your environment includes the required
+``pennylane`` and ``numpy`` packages.
+
+
 Performance & Scaling Notes
 ---------------------------
 
