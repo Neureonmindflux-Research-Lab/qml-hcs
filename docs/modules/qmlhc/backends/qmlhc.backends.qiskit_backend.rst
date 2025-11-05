@@ -18,8 +18,9 @@ Conceptual Foundations
    otherwise, ensuring each output index corresponds to a wire.
 
 2. **Minimal default ansatz:**
-   The fallback circuit applies one ``RY(angle)`` per wire and a final ``barrier``.
-   Measurement is implicit in the Sampler flow.
+   The fallback circuit applies one ``RY(angle)`` per wire and a final ``barrier``,
+   then calls ``measure_all()`` to ensure classical bits are present for Sampler validation.
+   Measurement can be implicit in some flows, but explicit ``measure_all()`` keeps versions compatible.
 
 3. **Signed averages from counts:**
    The execution aggregates bitstrings into a per-wire signed mean
@@ -39,6 +40,44 @@ Integration Guidelines
   entangling gates.
 * Keep ``output_dim`` and ``num_qubits`` equal to preserve shape invariants.
 * Set a fixed random seed and an ideal simulator if you need repeatable sampling.
+
+Installation
+------------
+Qiskit is included as an optional dependency of ``qml-hcs``.  
+However, it is **recommended to install it manually** if you wish to test
+a specific version or ensure compatibility with your preferred Qiskit release. 
+
+Choose the appropriate installation depending on your environment:
+
+- **Qiskit 1.x (legacy Sampler API):**
+
+.. code-block:: bash
+
+     pip install "qiskit>=1.2,<2.0"
+
+- **Qiskit 2.x (modern StatevectorSampler API):**
+
+.. code-block:: bash
+
+     pip install "qiskit>=2.0"
+
+The backend automatically detects the available version of Qiskit and imports
+the correct primitive:
+
+- For Qiskit 1.x → ``Sampler``
+- For Qiskit 2.x → ``StatevectorSampler`` (used as a drop-in replacement)
+
+Ensure Python ≥ 3.9 and that your environment includes ``qiskit.primitives``.
+
+
+Version Compatibility
+---------------------
+- **Qiskit ≤1.x:** uses the classic :class:`qiskit.primitives.Sampler`.
+  Results are typically exposed as ``quasi_dists`` (probabilities).
+- **Qiskit ≥2.x:** the adapter falls back to :class:`qiskit.primitives.StatevectorSampler`.
+  Circuits are passed as a list (``[qc]``). The default circuit adds ``measure_all()`` to
+  provide classical bits required by stricter validators. Results are read from
+  ``quasi_dists`` when present or from ``data.meas['counts']`` otherwise.
 
 .. note::
    This backend is **not strictly deterministic**. Results depend on stochastic
