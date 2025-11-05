@@ -46,7 +46,15 @@ from typing import Any, Callable, Mapping, Optional
 import numpy as np
 
 from qiskit import QuantumCircuit
-from qiskit.primitives import Sampler
+
+# Qiskit primitives import (compatible with 1.x and 2.x)
+try:
+    # Qiskit ≤ 1.x: classic Sampler is available
+    from qiskit.primitives import Sampler
+except Exception:
+    # Qiskit ≥ 2.x: use StatevectorSampler as a drop-in
+    from qiskit.primitives import StatevectorSampler as Sampler
+
 
 from ..core.backend import QuantumBackend, BackendConfig
 from ..core.types import Array, Capabilities, GradientKind
@@ -112,6 +120,7 @@ class QiskitBackend(QuantumBackend):
         qc.barrier()
         # Measurement is handled implicitly by Sampler in modern Qiskit;
         # counts/expectations are inferred from the primitive result.
+        qc.measure_all()
         return qc
 
     # ----------------------------------------------------------------------
@@ -127,6 +136,12 @@ class QiskitBackend(QuantumBackend):
         - Uses ``shots = config.shots or 1024`` when running the sampler.
         - Computes signed per-wire averages ('1'→+1, '0'→−1) after endian correction.
 
+        Note
+        ----
+        - Wraps the circuit as ``[qc]`` for Qiskit 2.x compatibility (accepted by 1.x as well).
+        - Reads results from ``quasi_dists`` when available, otherwise from ``data.meas['counts']``.
+
+
         Parameters
         ----------
         params : dict or None, optional
@@ -141,10 +156,28 @@ class QiskitBackend(QuantumBackend):
         qc = self._circuit_builder(x)
 
         # Use provided shots if available; otherwise default to 1024
-        result = self._sampler.run(qc, shots=self._cfg.shots or 1024).result()
+        res = self._sampler.run([qc], shots=self._cfg.shots or 1024).result()
+
+        # Extract counts safely (compatible with Qiskit 1.x and 2.x)
+        counts: dict[str, int] = {}
+        qd_list = getattr(res, "quasi_dists", None)
+        if qd_list:
+            qd = qd_list[0] if isinstance(qd_list, (list, tuple)) else qd_list
+            for k, p in qd.items():
+                counts[str(k)] = int(round(float(p) * (self._cfg.shots or 1024)))
+        else:
+            data_seq = getattr(res, "data", None)
+            if isinstance(data_seq, (list, tuple)) and data_seq:
+                data0 = data_seq[0]
+                meas = getattr(data0, "meas", None)
+                if isinstance(meas, dict) and "counts" in meas:
+                    counts = {str(k): int(v) for k, v in meas["counts"].items()}
+
+        # Fallback if no results available
+        if not counts:
+            counts = {"0" * self._num_qubits: (self._cfg.shots or 1024)}
 
         # Extract counts from the Sampler result and compute signed averages
-        counts = result[0].data.meas.get("counts", {})
         vec = np.zeros(self._num_qubits, dtype=float)
         total = sum(counts.values()) or 1
         for bitstring, freq in counts.items():
