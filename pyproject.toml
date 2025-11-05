@@ -83,11 +83,14 @@ torch = ["torch>=2.2"]
 jax = ["jax>=0.4.23", "jaxlib>=0.4.23"]
 
 # Visualization utilities
-viz = ["matplotlib>=3.8"]
+viz = [
+  "matplotlib>=3.8",
+  "pandas>=2.1",           
+]
 
 # Developer tools (for local builds, linting, packaging)
 dev = [
-  "numpy>=1.23",
+  "numpy>=1.26",
   "matplotlib>=3.8",
   "ruff>=0.6.0",
   "mypy>=1.7.0",
@@ -97,8 +100,9 @@ dev = [
 
 # Full documentation stack (Sphinx + themes + parsers)
 docs = [
-  "numpy>=1.23",
+  "numpy>=1.26",
   "matplotlib>=3.8",
+  "pandas>=2.1", 
   "sphinx>=7.3",
   "sphinx-book-theme",
   "furo",
@@ -113,11 +117,12 @@ docs = [
 
 # Testing suite (pytest + coverage)
 test = [
-  "numpy>=1.23",
+  "numpy>=1.26",
   "pytest>=8.1",
   "pytest-cov>=4.1",
   "coverage>=7.4",
   "matplotlib>=3.8",
+  "pandas>=2.1", 
 ]
 
 # Convenience meta-extra: install everything
@@ -130,6 +135,7 @@ all = [
   "jax>=0.4.23", "jaxlib>=0.4.23",
   # viz
   "matplotlib>=3.8",
+  "pandas>=2.1", 
   # dev
   "ruff>=0.6.0", "mypy>=1.7.0", "build>=1.2.1", "twine>=5.0.0",
   # docs
