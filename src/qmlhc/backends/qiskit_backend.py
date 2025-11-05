@@ -120,7 +120,8 @@ class QiskitBackend(QuantumBackend):
         qc.barrier()
         # Measurement is handled implicitly by Sampler in modern Qiskit;
         # counts/expectations are inferred from the primitive result.
-        qc.measure_all()
+        if hasattr(qc, "measure_all"):
+            qc.measure_all()
         return qc
 
     # ----------------------------------------------------------------------
