@@ -417,6 +417,15 @@ To verify that everything is working correctly, you can run the full test suite 
 
    pytest -q --cov=qmlhc --cov-report=term-missing
 
+**Run tests with detailed HTML coverage (optional)**
+
+To view a detailed coverage report directly in your browser, run:
+
+.. code-block:: bash
+
+   pytest -q --cov=src/qmlhc --cov-branch --cov-report=html
+   python -m webbrowser htmlcov/index.html
+
 **Run a single test file**
 
 .. code-block:: bash
