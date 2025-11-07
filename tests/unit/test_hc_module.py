@@ -1,7 +1,3 @@
-
-# Comprehensive tests for src/qmlhc/hc: __init__.py, policy.py, node.py, graph.py
-
-
 from __future__ import annotations
 
 import numpy as np
@@ -10,8 +6,9 @@ import pytest
 import qmlhc.hc as hc  # public re-exports
 
 
-# ---------- Public API re-exports --------------------------------------------
-
+# =============================================================================
+# Public API re-exports
+# =============================================================================
 def test_hc_public_reexports_exist():
     assert hasattr(hc, "HCNode")
     assert hasattr(hc, "NodeConfig")
@@ -22,8 +19,9 @@ def test_hc_public_reexports_exist():
     assert hasattr(hc, "MinRiskPolicy")
 
 
-# ---------- Policies ----------------------------------------------------------
-
+# =============================================================================
+# Policies
+# =============================================================================
 def test_policies_mean_median_shapes_and_values():
     fut = np.array([[0.0, 2.0], [2.0, 4.0], [4.0, 6.0]], dtype=float)
     rep_mean, d_mean = hc.MeanPolicy().select(fut)
@@ -51,8 +49,9 @@ def test_policies_raise_on_invalid_futures_rank():
         _ = hc.MinRiskPolicy(lambda v: 0.0).select(np.array([1.0, 2.0], dtype=float))
 
 
-# ---------- Dummy backend for node/graph tests --------------------------------
-
+# =============================================================================
+# Dummy backend for node/graph tests
+# =============================================================================
 from qmlhc.core.backend import BackendConfig, QuantumBackend
 from qmlhc.core.types import Array
 
@@ -70,8 +69,9 @@ class DummyBackend(QuantumBackend):
         return self._validate_branches(fut)
 
 
-# ---------- Node --------------------------------------------------------------
-
+# =============================================================================
+# Node
+# =============================================================================
 def test_hcnode_forward_default_mean_policy_and_cfg_branches():
     be = DummyBackend(BackendConfig(output_dim=3))
     node = hc.HCNode(backend=be, policy=None, config=hc.NodeConfig(branches=5))
@@ -96,8 +96,9 @@ def test_hcnode_with_explicit_policy_used_over_default():
     assert "diagnostics" in info and info["diagnostics"]["branches"] == 4
 
 
-# ---------- Graph (DAG) ------------------------------------------------------
-
+# =============================================================================
+# Graph (DAG)
+# =============================================================================
 def test_hcgraph_chain_and_step_with_parent_aggregation():
     be1 = DummyBackend(BackendConfig(output_dim=2))
     be2 = DummyBackend(BackendConfig(output_dim=2))
