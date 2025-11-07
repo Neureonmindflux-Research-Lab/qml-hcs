@@ -29,7 +29,7 @@ def ensure_src_path():
     return repo_root, src_path
 
 # ---------------------------------------------------------------------
-# Imports from your modules (logic unchanged)
+# Imports from your modules 
 # ---------------------------------------------------------------------
 repo_root, src_path = ensure_src_path()
 
@@ -44,6 +44,8 @@ from qmlhc.callbacks.depth_control import DepthScheduler
 from qmlhc.callbacks.base import CallbackList
 from qmlhc.core.model import HCModel
 from qmlhc.core.backend import BackendConfig
+from qmlhc.optim.registry_numpy import create_optimizer_numpy
+
 
 # ---------------------------------------------------------------------
 # Utility
@@ -96,9 +98,37 @@ def build_system(qubits: int = 4, shots: int = 500, branches: int = 6,
     callbacks = CallbackList([telemetry, depth_sched])
     return model, task_loss, cons_loss, coh_loss, callbacks
 
+# === Optimizer wiring helpers (SPSA / Trust-KL / MPC ready) ===
+def evaluate_stats(model, params, ctx):
+    """Compute task/cons/coh/total and return model info (branches)."""
+    x0 = np.asarray(ctx["x0"], dtype=float)
+    drift = np.asarray(ctx["drift"], dtype=float)
+    target = np.asarray(ctx["target"], dtype=float)
+    branches = int(ctx["branches"])
+    task_loss, cons_loss, coh_loss = ctx["losses"]
+
+    alpha = float(params["alpha"])
+    x = alpha * x0
+    s_tm1 = np.zeros_like(x)
+    s_t, s_hat, info = model.forward(x + drift, s_tm1, branches)
+
+    lt = float(task_loss(s_t, target))
+    lc = float(cons_loss(s_tm1, s_t, s_hat))
+    lq = float(coh_loss(info.get("branches", np.vstack([s_t, s_hat]))))
+    total = lt + 0.5 * (lc + lq)
+    return {"task": lt, "cons": lc, "coh": lq, "total": total, "info": info}
+
+def refresh_info(model, params, ctx):
+    """Recompute info(dict) for trust-region KL guard."""
+    return evaluate_stats(model, params, ctx)["info"]
+
+def kl_fn(old_info, new_info):
+    """Symmetric KL-like proxy using branch statistics."""
+    from qmlhc.optim.numpy_optim.utils import kl_proxy
+    return float(kl_proxy(old_info, new_info))
 
 # ---------------------------------------------------------------------
-# Run experiment (unchanged logic)
+# Run experiment 
 # ---------------------------------------------------------------------
 def run_experiment(epochs: int = 20, qubits: int = 4, branches: int = 6, drift_amp: float = 0.05):
     # <-- CHANGE: pass sched_epochs=epochs so the DepthScheduler runs across the full training
@@ -110,6 +140,12 @@ def run_experiment(epochs: int = 20, qubits: int = 4, branches: int = 6, drift_a
 
     x0 = np.linspace(0.1, 0.3, qubits)
     alpha = 1.0
+    # === Initialize SPSA + Trust-KL Optimizer ===
+    base_opt = create_optimizer_numpy("spsa", lr0=0.05, eps0=0.10, antithetic=True, clip=4.0)
+    opt = create_optimizer_numpy("trust-kl", base_opt=base_opt, delta_kl=0.02, backtrack=0.7, max_backtracks=8)
+    params = {"alpha": 1.0}
+    opt.initialize(params)
+
     rows = []
     header = [
         "epoch", "alpha",
@@ -125,6 +161,26 @@ def run_experiment(epochs: int = 20, qubits: int = 4, branches: int = 6, drift_a
         phase = 2 * math.pi * epoch / max(1, epochs - 1)
         target = np.linspace(0.4, 0.9, qubits)
         drift = drift_amp * np.sin(phase) * np.ones(qubits)
+        
+         # --- Build optimizer context for this epoch ---
+        context = {
+            "epoch": epoch,
+            "epochs": epochs,
+            "model": model,
+            "x0": x0,
+            "drift": drift,
+            "target": target,
+            "losses": (task_loss, cons_loss, coh_loss),
+            "branches": branches,
+            "info": {},
+            "kl_fn": kl_fn,
+            "refresh_info": refresh_info,
+        }
+        context["info"] = refresh_info(model, {"alpha": float(params["alpha"])}, context)
+
+        # === Optimizer-driven update of alpha ===
+        params, opt_state = opt.step_params(model, params, context)
+        alpha = float(params["alpha"])
 
         x = alpha * x0
         s_tm1 = np.zeros_like(x)
@@ -134,10 +190,6 @@ def run_experiment(epochs: int = 20, qubits: int = 4, branches: int = 6, drift_a
         l_cons = cons_loss(s_tm1, s_t, s_hat)
         l_coh = coh_loss(info["branches"])
         total_loss = l_task + 0.5 * (l_cons + l_coh)
-
-        # Simple parameter update (kept as-is)
-        grad = (total_loss - 0) / (1e-3 + 1e-6)
-        alpha = alpha - 0.05 * grad
 
         mean_s = float(np.mean(s_t))
         mean_mu = float(np.mean(s_hat))
@@ -155,7 +207,7 @@ def run_experiment(epochs: int = 20, qubits: int = 4, branches: int = 6, drift_a
     return rows, header
 
 # ---------------------------------------------------------------------
-# Save CSV + EXACT plotting style (only visuals changed)
+# Save CSV 
 # ---------------------------------------------------------------------
 def save_and_plot_quantum_style(rows, header, output_dir="runs/hc_full_demo"):
     ensure_dirs(output_dir)
@@ -164,7 +216,7 @@ def save_and_plot_quantum_style(rows, header, output_dir="runs/hc_full_demo"):
     df.to_csv(csv_path, index=False)
     print(f"[OK] Saved CSV: {csv_path}")
 
-    # 1) Loss & Coherence (dual y-axes), exact colors, numbered file
+    # 1) Loss & Coherence (dual y-axes)
     fig, ax1 = plt.subplots(figsize=(12, 6))
     ax2 = ax1.twinx()
     ax1.plot(df["epoch"], df["total_loss"], color="tab:red", linewidth=2)
@@ -186,7 +238,7 @@ def save_and_plot_quantum_style(rows, header, output_dir="runs/hc_full_demo"):
     plt.grid(True)
     _savefig_numbered(output_dir, "consistency_vs_coherence")
 
-    # 3) Alpha (Feedback) Over Epochs — green, exact title
+    # 3) Alpha (Feedback) Over Epochs — green
     plt.figure(figsize=(10, 4))
     plt.plot(df["epoch"], df["alpha"], color="tab:green", linewidth=2)
     plt.title("Alpha (Feedback) Over Epochs")
@@ -195,7 +247,7 @@ def save_and_plot_quantum_style(rows, header, output_dir="runs/hc_full_demo"):
     plt.grid(True)
     _savefig_numbered(output_dir, "alpha_over_epochs")
 
-    # 4) State Alignment — purple vs orange, exact title
+    # 4) State Alignment — purple vs orange
     plt.figure(figsize=(12, 5))
     plt.plot(df["epoch"], df["mean_s"],  color="tab:purple", linewidth=2, label="mean(S_t)")
     plt.plot(df["epoch"], df["mean_mu"], color="tab:orange", linewidth=2, label="mean(mu_fut)")
