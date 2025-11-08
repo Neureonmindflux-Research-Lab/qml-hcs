@@ -80,7 +80,7 @@ pennylane = ["pennylane>=0.36"]
 
 # Machine learning frameworks
 torch = ["torch>=2.2"]
-jax = ["jax>=0.4.23", "jaxlib>=0.4.23"]
+jax = ["jax~=0.6.0", "jaxlib~=0.6.0"]
 
 # Visualization utilities
 viz = [
@@ -132,7 +132,7 @@ all = [
   "pennylane>=0.36",
   # ML frameworks
   "torch>=2.2",
-  "jax>=0.4.23", "jaxlib>=0.4.23",
+  "jax~=0.6.0", "jaxlib~=0.6.0",
   # viz
   "matplotlib>=3.8",
   "pandas>=2.1", 
