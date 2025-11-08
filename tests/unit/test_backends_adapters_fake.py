@@ -93,6 +93,30 @@ def _install_fake_pennylane() -> None:
     qml.CNOT = CNOT
     qml.PauliZ = PauliZ
     qml.expval = expval
+    
+    # --- Added for compatibility with new backend ---
+    def QNode(fn, dev):
+        def wrapped(x):
+            _ = fn(x)
+            return tuple(0.0 for _ in range(dev.wires))
+        return wrapped
+    qml.QNode = QNode
+
+    def set_shots(qnode, shots):
+        qnode._shots = shots
+        return qnode
+    qml.set_shots = set_shots
+
+    # --- Noise-channel stubs needed by the backend ---
+    def DepolarizingChannel(_p, wires=None):
+        return None
+    def PhaseDamping(_gamma, wires=None):
+        return None
+    def AmplitudeDamping(_gamma, wires=None):
+        return None
+    qml.DepolarizingChannel = DepolarizingChannel
+    qml.PhaseDamping = PhaseDamping
+    qml.AmplitudeDamping = AmplitudeDamping
 
     sys.modules["pennylane"] = qml
 
@@ -214,7 +238,7 @@ def test_pennylane_backend_fake_runs_and_projects():
     be = PennyLaneBackend(
         BackendConfig(output_dim=2, shots=50),
         num_qubits=2,
-        device_name="default.qubit",
+        device_name="default.mixed",
     )
     x = np.array([0.1, 0.3], dtype=float)
     be.encode(x)
