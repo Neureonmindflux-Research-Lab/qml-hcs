@@ -23,6 +23,12 @@ A deterministic, analytic simulator built on :mod:`pennylane`.
 It supports symbolic gradients, automatic differentiation, and reproducible
 expectation-value computations—ideal for theory validation and hybrid modeling.
 
+.. note::
+   **Compatibility (PennyLane ≥ 0.39)**
+   This backend uses the new ``qml.set_shots(...)`` API for shot configuration.
+   Older versions (< 0.37) used ``qml.transforms.set_shots(...)``, which has
+   been deprecated in PennyLane 0.39+.
+
 **Qiskit Backend**  
 A stochastic, shot-based adapter built on :mod:`qiskit.primitives.Sampler`.  
 It reproduces the statistical behavior of real quantum devices by averaging
@@ -46,7 +52,7 @@ A concise operational comparison of all backend adapters is presented below.
    | **Backend**          | **Execution Model**         | **Deterministic Mode**    | **Stochastic Mode**       | **Distinctive Features**                                     |
    +======================+=============================+===========================+===========================+==============================================================+
    | **PennyLane**        | Analytic or sampled via     | ✔️ Analytic (shots=None)  | ✔️ Shot-based (shots>0)   | • Linear entanglement (CNOT chain)                           |
-   |                      | configurable device shots   |                           |                           | • Symbolic gradient support (parameter-shift)                |
+   |                      | configurable **QNode** shots|                           |                           | • Symbolic gradient support (parameter-shift)                |
    |                      |                             |                           |                           | • Optional stochastic execution via device configuration     |
    +----------------------+-----------------------------+---------------------------+---------------------------+--------------------------------------------------------------+
    | **Qiskit**           | Shot-based execution using  | ❌ Unsupported            | ✔️ Always shot-based      | • Uses ``Sampler`` primitive for probabilistic results       |

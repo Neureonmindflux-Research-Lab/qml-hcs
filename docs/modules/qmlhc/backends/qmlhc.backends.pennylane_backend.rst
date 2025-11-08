@@ -16,6 +16,11 @@ correspondence between logical outputs and quantum wires, keeping the
 model mathematically traceable and compatible with symbolic analyses
 within :mod:`qmlhc`.
 
+By default, the backend initializes the PennyLane device ``default.mixed``
+to enable lightweight realistic noise. Use ``default.qubit`` for ideal
+simulation or ``lightning.qubit`` for faster pure-state execution.
+
+
 Conceptual Foundations
 ----------------------
 
@@ -69,6 +74,12 @@ Integration Guidelines
   :py:class:`~qmlhc.core.backend.QuantumBackend`, ensuring consistent
   error handling and output verification.
 
+.. note::
+   **Compatibility Note (PennyLane ≥ 0.39)**
+   This backend uses the modern API ``qml.set_shots(...)`` for shot configuration.
+   Earlier releases (< 0.37) used ``qml.transforms.set_shots(...)``, which has been
+   deprecated and removed in current versions.
+
 Installation
 ------------
 PennyLane is included as an optional dependency of ``qml-hcs``.  
@@ -82,14 +93,27 @@ Ensure Python ≥ 3.9 and that your environment includes the required
 ``pennylane`` and ``numpy`` packages.
 
 
+
 Performance & Scaling Notes
 ---------------------------
 
 - Circuit depth grows as :math:`O(N)` with the number of qubits.  
 - Memory footprint remains constant since expectation results are
   collapsed to a single vector rather than a full density matrix.  
-- When executed with ``shots=None``, the device operates in analytic mode,
+- When executed with ``shots=None``, the backend operates in analytic mode,
   bypassing stochastic noise and returning exact expectation values.
+
+Noise model
+-----------
+When a mixed-state device (e.g., ``default.mixed``) is selected, the internal
+circuit includes lightweight per-wire noise channels to simulate realistic
+conditions:
+
+- DepolarizingChannel (p = 0.0012)
+- PhaseDamping (γ = 0.0020, T2)
+- AmplitudeDamping (γ = 0.0012, T1)
+
+These defaults keep examples realistic while maintaining a compact, low-depth circuit.
 
 Extension Pathways
 ------------------
