@@ -80,7 +80,7 @@ class PennyLaneBackend(QuantumBackend):
         self,
         config: BackendConfig,
         num_qubits: int,
-        device_name: str = "default.qubit",
+        device_name: str = "default.mixed",  # "default.mixed" enables realistic noise (decoherence, damping); use "default.qubit" for ideal or "lightning.qubit" for faster pure-state simulation.
         shots: Optional[int] = None,
         supports_noise: Optional[bool] = None,
     ) -> None:
@@ -88,7 +88,7 @@ class PennyLaneBackend(QuantumBackend):
         self._num_qubits = int(num_qubits)
 
         dev_shots = shots if shots is not None else self._cfg.shots
-        self._dev = qml.device(device_name, wires=self._num_qubits, shots=dev_shots)
+        self._dev = qml.device(device_name, wires=self._num_qubits)
         self._supports_noise_override = supports_noise
 
         if self.output_dim != self._num_qubits:
@@ -100,19 +100,33 @@ class PennyLaneBackend(QuantumBackend):
         # - RY rotations parameterized by the encoded input x
         # - Linear entanglement via CNOT gates
         # - Return Pauli-Z expectations per wire
-        @qml.qnode(self._dev)
+       
         def circuit(x: Array) -> tuple[float, ...]:
             for i, val in enumerate(x):
                 qml.RY(float(val), wires=i)
             for i in range(self._num_qubits - 1):
                 qml.CNOT(wires=[i, i + 1])
+            
+            # Physical noise model 
+            for i in range(self._num_qubits):
+                qml.DepolarizingChannel(0.0012, wires=i)   # gate error
+                qml.PhaseDamping(0.0020, wires=i)          # phase decoherence (T2)
+                qml.AmplitudeDamping(0.0012, wires=i)      # energy relaxation (T1)
+
             return tuple(qml.expval(qml.PauliZ(i)) for i in range(self._num_qubits))
 
-        self._circuit = circuit
+        qnode = qml.QNode(circuit, self._dev)
+        self._shots_current = None
 
-    # ----------------------------------------------------------------------
+        if dev_shots is not None:
+            qnode = qml.set_shots(qnode, dev_shots)
+            self._shots_current = dev_shots
+            
+        self._circuit = qnode
+
+    # ======================================================================
     # Contract methods
-    # ----------------------------------------------------------------------
+    # ======================================================================
     def run(self, params: Mapping[str, Any] | None = None) -> Array:
         """
         Execute the PennyLane circuit on the last encoded input.
@@ -206,7 +220,7 @@ class PennyLaneBackend(QuantumBackend):
                 "backend_version": qml.__version__,
                 "max_qubits": self._num_qubits,
                 "supports_shots": True,  # PennyLane devices generally accept finite shots
-                "using_shots": (self._dev.shots is not None),
+                "using_shots": (getattr(self, "_shots_current", None) is not None),
                 "supports_noise": (
                     self._supports_noise_override
                     if self._supports_noise_override is not None
