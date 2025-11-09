@@ -90,7 +90,7 @@ or specify a particular version:
 
 .. code-block:: bash
 
-   pip install qml-hcs==0.1.0
+   pip install qml-hcs==0.2.0
 
 You can verify installation by running:
 
