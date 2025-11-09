@@ -7,6 +7,7 @@ Mappings from a compact present state ``S_t`` to a set of K candidate futures
 ``{S_{t+1}^{(k)}}``.
 
 This module defines:
+
 - ``Projector``: protocol/contract for deterministic future projection.
 - ``LinearProjector``: affine projector that generates evenly spaced
   perturbations around a base prediction, followed by ``tanh`` stabilization.

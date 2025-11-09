@@ -1,16 +1,12 @@
-
-# Comprehensive tests for src/qmlhc/metrics: __init__.py, forecasting.py, control.py, anomalies.py
-
-
 from __future__ import annotations
-
 import numpy as np
 import pytest
 import qmlhc.metrics as M
 
 
-# ---------- Public API re-exports --------------------------------------------
-
+# =============================================================================
+# Public API re-exports
+# =============================================================================
 def test_metrics_public_reexports_exist():
     expected = {
         "mape", "mase", "delta_lag",
@@ -21,8 +17,9 @@ def test_metrics_public_reexports_exist():
         assert hasattr(M, name), f"{name} missing from qmlhc.metrics"
 
 
-# ---------- Forecasting metrics ----------------------------------------------
-
+# =============================================================================
+# Forecasting metrics
+# =============================================================================
 def test_mape_and_mase_values_and_shapes():
     y_true = np.linspace(0.1, 1.0, 10)
     y_pred = y_true * 0.9
@@ -33,31 +30,28 @@ def test_mape_and_mase_values_and_shapes():
 
     assert mape_val >= 0.0
     assert mase_val >= 0.0
-    # sanity checks: perfect prediction -> near 0
     assert np.isclose(M.mape(y_true, y_true), 0.0, atol=1e-9)
     assert np.isclose(M.mase(y_true, y_true, y_naive), 0.0, atol=1e-9)
 
 
 def test_delta_lag_alignment_bounds_and_signals():
-    # identical sequences -> perfect alignment (1.0)
     y = np.linspace(0.0, 1.0, 8)
     assert np.isclose(M.delta_lag(y, y), 1.0)
-    # opposite trend -> -1.0
+
     y_rev = y[::-1]
     val = M.delta_lag(y, y_rev)
     assert -1.0 <= val <= 1.0
-    assert val <= -0.5  # strongly anti-aligned
+    assert val <= -0.5
 
 
-# ---------- Control metrics ---------------------------------------------------
-
+# =============================================================================
+# Control metrics
+# =============================================================================
 def test_overshoot_zero_reference_and_positive_case():
-    # zero reference -> by definition 0.0 overshoot
     y_true = np.zeros(10)
     y_pred = np.zeros(10)
     assert M.overshoot(y_true, y_pred) == 0.0
 
-    # positive reference with small overshoot
     y_true = np.ones(10)
     y_pred = np.ones(10)
     y_pred[7:] = 1.05
@@ -68,33 +62,30 @@ def test_overshoot_zero_reference_and_positive_case():
 def test_settling_time_band_and_robustness_bounds():
     y_true = np.linspace(0.0, 1.0, 20)
     y_pred = y_true.copy()
-    y_pred[10:] = 1.04  # within 4% band around final ref=1.0
+    y_pred[10:] = 1.04
     st = M.settling_time(y_true, y_pred, tol=0.05)
     assert st >= 0
 
     rb = M.robustness(y_true, y_pred)
     assert 0.0 < rb <= 1.0
-    # perfect prediction -> robustness = 1.0
     assert np.isclose(M.robustness(y_true, y_true), 1.0)
 
 
-# ---------- Anomaly metrics ---------------------------------------------------
-
+# =============================================================================
+# Anomaly metrics
+# =============================================================================
 def test_early_roc_auc_regular_and_no_pos_neg_cases():
     y = np.array([0, 0, 1, 0, 1, 0], dtype=float)
     s = np.array([0.1, 0.2, 0.9, 0.3, 0.8, 0.2], dtype=float)
     auc = M.early_roc_auc(y, s, horizon=1)
     assert 0.0 <= auc <= 1.0
 
-    # no positives in window -> defined as 0.5
     y_none = np.zeros_like(y)
     assert M.early_roc_auc(y_none, s, horizon=1) == 0.5
 
-    # no negatives (all ones) -> any valid value in [0,1]
     y_all = np.ones_like(y)
     auc_all = M.early_roc_auc(y_all, s, horizon=1)
     assert 0.0 <= auc_all <= 1.0
-
 
 
 def test_recall_at_lag_normal_and_zero_anomalies():
@@ -103,6 +94,32 @@ def test_recall_at_lag_normal_and_zero_anomalies():
     r = M.recall_at_lag(y, p, lag=1)
     assert 0.0 <= r <= 1.0
 
-    # no anomalies -> 0.0 by definition (hits / (total+eps))
     y0 = np.zeros_like(y)
     assert M.recall_at_lag(y0, p, lag=1) == 0.0
+
+def test_rmse_basic_and_zero_case():
+    y_true = np.array([0.0, 1.0, 2.0, 3.0])
+    y_pred = np.array([0.0, 1.5, 1.0, 2.0])
+    expected = float(np.sqrt(np.mean((y_pred - y_true) ** 2)))
+    assert np.isclose(M.rmse(y_true, y_pred), expected)
+    assert np.isclose(M.rmse(y_true, y_true), 0.0)
+
+
+def test_rmse_accepts_list_inputs():
+    y_true = [1, 2, 3]
+    y_pred = [1, 2, 4]
+    expected = float(np.sqrt(np.mean((np.asarray(y_pred, dtype=float) - np.asarray(y_true, dtype=float)) ** 2)))
+    assert np.isclose(M.rmse(y_true, y_pred), expected)
+
+def test_settling_time_and_robustness_cover_all_branches():
+    import numpy as np, qmlhc.metrics as M
+    y_true = np.linspace(0, 1, 10)
+    y_pred = y_true.copy()
+    y_pred[-2:] = 2.0
+    st = M.settling_time(y_true, y_pred, tol=0.05)
+    assert st > 0
+    st2 = M.settling_time(y_true, y_true, tol=1.1)
+    assert st2 == 0
+    rb = M.robustness(y_true, y_pred)
+    assert 0 < rb <= 1
+    assert np.isclose(M.robustness(y_true, y_true), 1.0)

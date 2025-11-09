@@ -16,3 +16,4 @@ Each link below opens a separate page with the full documentation of that exampl
    examples/ex_training_with_callbacks_demo
    examples/ex_training_with_callbacks_advanced
    examples/ex_quantum_hypercore_case_study
+   examples/ex_full_hypercausal_Pennylane_demo

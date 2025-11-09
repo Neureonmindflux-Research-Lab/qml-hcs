@@ -80,9 +80,9 @@ class OptimizerAPI:
         tuple
             ``(new_params, new_state)``, where:
             - ``new_params`` : Mapping[str, Any]
-                Updated parameter dictionary.
+            Updated parameter dictionary.
             - ``new_state`` : Mapping[str, Any]
-                Updated optimizer state.
+            Updated optimizer state.
         """
         new_params = self._step(params, grads)
         new_state = dict(state)

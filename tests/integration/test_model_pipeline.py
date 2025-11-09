@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# =============================================================================
+# Integration Test: Model Pipeline — sectioned comments only (no code changes)
+# =============================================================================
+
 """
 Integration Test: Model Pipeline
 --------------------------------
@@ -15,6 +19,9 @@ Covers:
 
 from __future__ import annotations
 
+# =============================================================================
+# Imports
+# =============================================================================
 import numpy as np
 
 from qmlhc.core.backend import BackendConfig, QuantumBackend
@@ -27,6 +34,9 @@ from qmlhc.loss.coherence import CoherenceLoss
 from qmlhc.metrics.forecasting import mape, mase, delta_lag
 
 
+# =============================================================================
+# Dummy backend for end-to-end testing
+# =============================================================================
 class DummyBackend(QuantumBackend):
     """
     Deterministic backend used for end-to-end integration testing.
@@ -70,6 +80,9 @@ class DummyBackend(QuantumBackend):
         return self._validate_branches(fut)
 
 
+# =============================================================================
+# Test: single-step forward + core losses
+# =============================================================================
 def test_integration_single_step_and_losses():
     """
     Validate single-step forward pass and core loss components.
@@ -99,6 +112,9 @@ def test_integration_single_step_and_losses():
     assert np.isfinite(coh) and coh >= 0.0
 
 
+# =============================================================================
+# Test: sequence prediction + forecasting metrics
+# =============================================================================
 def test_sequence_metrics_forecasting_like():
     """
     Validate sequential model execution and forecasting metrics.
@@ -127,3 +143,4 @@ def test_sequence_metrics_forecasting_like():
     assert np.isfinite(val_mape)
     assert np.isfinite(val_mase)
     assert -1.0 <= val_dlag <= 1.0
+# =============================================================================

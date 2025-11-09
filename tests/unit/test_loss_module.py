@@ -1,7 +1,3 @@
-
-# Comprehensive tests for src/qmlhc/loss: __init__.py, task.py, consistency.py, coherence.py
-
-
 from __future__ import annotations
 
 import numpy as np
@@ -9,8 +5,9 @@ import pytest
 import qmlhc.loss as L
 
 
-# ---------- Public API re-exports --------------------------------------------
-
+# =============================================================================
+# Public API re-exports
+# =============================================================================
 def test_loss_public_reexports_exist():
     expected = {
         "TaskLoss", "MSELoss", "MAELoss", "CrossEntropyLoss",
@@ -20,8 +17,9 @@ def test_loss_public_reexports_exist():
         assert hasattr(L, name), f"{name} missing from qmlhc.loss"
 
 
-# ---------- Task-level losses ------------------------------------------------
-
+# =============================================================================
+# Task-level losses
+# =============================================================================
 def test_mse_loss_values_and_shape_check():
     pred = np.array([0.0, 1.0, 2.0])
     target = np.array([0.0, 2.0, 4.0])
@@ -53,8 +51,9 @@ def test_crossentropy_loss_valid_and_shape_check():
         _ = ce(np.array([0.5, 0.5]), np.array([0.2]))
 
 
-# ---------- Consistency loss -------------------------------------------------
-
+# =============================================================================
+# Consistency loss
+# =============================================================================
 def test_consistency_loss_correctness_and_dimension_checks():
     s_tm1 = np.array([0.0, 0.5, 1.0])
     s_t = np.array([0.1, 0.6, 1.1])
@@ -65,13 +64,13 @@ def test_consistency_loss_correctness_and_dimension_checks():
     d_fut = np.mean((s_t - s_tp1_hat) ** 2)
     expected = 0.5 * d_prev + 2.0 * d_fut
     assert np.isclose(val, expected)
-    # Dimension mismatch
     with pytest.raises(ValueError):
         _ = loss(np.array([1.0, 2.0]), np.array([1.0]), np.array([1.0, 2.0]))
 
 
-# ---------- Coherence loss ---------------------------------------------------
-
+# =============================================================================
+# Coherence loss
+# =============================================================================
 def test_coherence_loss_variance_mode():
     fut = np.array([[1.0, 2.0], [2.0, 4.0], [3.0, 6.0]], dtype=float)
     loss_fn = L.CoherenceLoss(mode="variance")

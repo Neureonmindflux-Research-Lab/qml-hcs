@@ -17,16 +17,6 @@ The connected C++ module must implement the following minimal API:
 
 If any of these functions are missing, initialization will raise an
 AttributeError. Output dimensions are verified to match the Python configuration.
-
-Example
--------
->>> import cpp_backend_bridge  # compiled pybind11 module
->>> from qmlhc.backends.cpp_backend_adapter import CppBackend
->>> cfg = BackendConfig(output_dim=4)
->>> backend = CppBackend(cfg, cpp_backend_bridge)
->>> backend.encode(np.array([0.1, 0.2, 0.3, 0.4]))
->>> y = backend.run()
->>> fut = backend.project_future(y, branches=3)
 """
 
 from __future__ import annotations

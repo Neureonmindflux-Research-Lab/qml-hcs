@@ -242,7 +242,7 @@ class HypercausalNode(Protocol):
         - ``S_t`` has shape ``(D,)``
         - ``Ŝ_{t+1}`` has shape ``(D,)``
         - ``info`` may include
-          ``{'s_tm1': Array, 'branches': Array(K, D), 'policy': str, ...}``
+        ``{'s_tm1': Array, 'branches': Array(K, D), 'policy': str, ...}``
     """
     def forward(
         self,

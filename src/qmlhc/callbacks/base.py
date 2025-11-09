@@ -8,6 +8,7 @@ telemetry integration. Provides a unified interface for hook registration
 and event dispatch during iterative processes (e.g., epochs, steps).
 
 Includes:
+
 - ``Callback``: protocol defining the event hook signatures.
 - ``CallbackList``: container that manages multiple callbacks and dispatches
   events sequentially.
@@ -36,7 +37,7 @@ class Callback(Protocol):
         step : int
             Index of the current step (0-based).
         context : Mapping[str, Any]
-            Mutable context dictionary shared among callbacks and the trainer.
+            Mutable context dictionary shared among callbacks and the trainer.    
         """
 
     def on_step_end(self, step: int, context: Mapping[str, Any]) -> None:
@@ -84,7 +85,7 @@ class Callback(Protocol):
         error : Exception
             The raised exception object.
         context : Mapping[str, Any]
-            Context snapshot at the time of the error.
+            Context snapshot at the time of the error.  
         """
 
 
@@ -100,7 +101,7 @@ class CallbackList:
     Notes
     -----
     - Callbacks are executed in the order they were added.
-    - Each event propagates to all registered callbacks.
+    - Each event propagates to all registered callbacks. 
     """
 
     def __init__(self, callbacks: list[Callback] | None = None) -> None:
@@ -113,7 +114,7 @@ class CallbackList:
         Parameters
         ----------
         cb : Callback
-            Instance implementing the ``Callback`` protocol.
+            Instance implementing the ``Callback`` protocol.    
         """
         self._callbacks.append(cb)
 
