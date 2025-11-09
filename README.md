@@ -74,7 +74,7 @@ pip install qml-hcs
 Install a specific version:
 
 ```bash
-pip install qml-hcs==0.1.0
+pip install qml-hcs==0.2.0
 ```
 
 Verify installation:
