@@ -17,7 +17,8 @@ extensions = [
     "myst_parser",                   
     "sphinx.ext.mathjax",   
     "sphinxcontrib.programoutput",
-    "sphinx.ext.intersphinx",      
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.graphviz",
 ]
 
 intersphinx_mapping = {
