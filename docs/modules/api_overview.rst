@@ -6,12 +6,12 @@ API Overview
    :titlesonly:
 
    Backends <qmlhc/backends/index>
-   Callbacks <qmlhc/callbacks/index>
    Core Engine <qmlhc/core/index>
-   Examples <qmlhc/examples/index>
    Hypercausal Graph <qmlhc/hc/index>
    Loss Functions <qmlhc/loss/index>
+   Callbacks <qmlhc/callbacks/index>
+   Predictors <qmlhc/predictors/index>
    Metrics <qmlhc/metrics/index>
    Optimization <qmlhc/optim/index>
-   Predictors <qmlhc/predictors/index>
+   Examples <qmlhc/examples/index>
 
