@@ -10,3 +10,4 @@ docutils>=0.20
 sphinxcontrib-programoutput
 numpy
 pandas>=2.1
+graphviz
