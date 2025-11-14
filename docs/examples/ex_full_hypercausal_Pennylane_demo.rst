@@ -1,3 +1,5 @@
+.. _ex-full-hypercausal-pennylane-demo:
+
 ====================================================
 Full Hypercausal System Demo (PennyLane + SPSA + KL)
 ====================================================
@@ -45,6 +47,16 @@ This demo wires the high-level components of **QML-HCS** as follows:
 - **Losses:** ``MSELoss`` (task), ``ConsistencyLoss`` (temporal), ``CoherenceLoss`` (branch coherence).
 - **Callbacks:** ``MemoryLogger`` (telemetry) and ``DepthScheduler`` (progressive circuit depth).
 - **Optimizers:** base **SPSA** (derivative-free) wrapped by a **KL-bounded trust-region** controller.
+
+.. note::
+   This demonstration combines both abstraction levels introduced in the core
+   and hypercausal modules. The ``HCNode`` manages the direct backend–policy
+   interaction for each causal step, while the ``HCModel`` wraps this node to
+   enable complete sequence execution and optimizer integration.
+
+   Readers can refer to the conceptual discussion in
+   :ref:`HCNode vs HCModel <core-hcnode-hcmodel-note>`
+   for details on their complementary roles within the QML-HCS framework.
 
 Data & Non-Stationary Drift
 ===========================

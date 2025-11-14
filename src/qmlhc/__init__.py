@@ -2,7 +2,7 @@
 # Package entry-point: defines public metadata and stable namespace anchors only.
 
 # Semantic version synchronized with pyproject.toml.
-__version__: str = "0.1.0"
+__version__: str = "0.2.0"
 
 # Short package descriptor for tooling and logging.
 __package_name__: str = "qmlhc"

@@ -96,7 +96,7 @@ You can verify installation by running:
 
 .. code-block:: bash
 
-   python -c "import qmlhcs; print(qmlhcs.__version__)"
+   python -c "import qmlhc; print(qmlhc.__version__)"
 
 This method is ideal for end-users or production deployments where the source code is not being modified, but the full library functionality and API features remain available for direct use.
 
@@ -329,7 +329,6 @@ The QML-HCS repository follows a clean modular layout:
       │   └── examples.rst
       │
       ├── pyproject.toml                 # Build metadata (PEP 621)
-      ├── Makefile                       # Build, test, and docs automation
       └── README.md                      # Project overview and installation guide
 
 
@@ -456,7 +455,7 @@ To view a detailed coverage report directly in your browser, run:
    25 files skipped due to complete coverage.
    Required test coverage of 75.0% reached. Total coverage: 92.03%
    53 passed in 0.32s
-   (.venv) (base) mozoh@pop-os:~/Desktop/P1/qml-hcs$
+  
 
 A 100% test success and a coverage above 90% confirm that the QMLHC package is correctly installed and all major modules are functioning as expected.
 
