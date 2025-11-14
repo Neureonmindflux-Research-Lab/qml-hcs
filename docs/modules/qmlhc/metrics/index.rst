@@ -173,8 +173,8 @@ and higher-level metrics.
    print(f"Overshoot: {os_rel:.2f} | Settling Time: {t_set} | Robustness: {rob:.2f}")
    print(f"MAPE: {mape_v:.2f}% | MASE: {mase_v:.2f} | ΔLag: {dlag_v:.2f} | RMSE: {rmse_v:.4f}")
 
-Expected Output (Variable)
---------------------------
+Expected Output
+---------------
 
 .. code-block:: text
 
