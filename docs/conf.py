@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = "qmlhc Minimal Core Demo"
 author = "Neureonmindflux Research Lab"
-release = "0.1.0"
+release = "0.2.0"
 
 # -- General configuration ---------------------------------------------------
 
