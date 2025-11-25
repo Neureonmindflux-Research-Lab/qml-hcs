@@ -202,7 +202,23 @@ QML-HCS is part of the NeureonMindFlux Research Lab initiative to formalize quan
 It seeks to unify Quantum Machine Learning, Causal Inference, and Deterministic Modeling into a single, reproducible platform for scientific investigation and applied experimentation.
 
 ---
+## Citation
 
+If you use **QML-HCS** in your research, please cite the following work  
+👉 **[View the preprint on arXiv ](https://arxiv.org/abs/2511.17624)**
+
+```bibtex
+@misc{mozo2025qmlhcshypercausalquantummachine,
+  title={QML-HCS: A Hypercausal Quantum Machine Learning Framework for Non-Stationary Environments},
+  author={Hector E Mozo},
+  year={2025},
+  eprint={2511.17624},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2511.17624},
+}
+```
+---
 ## Acknowledgments
 
 Developed under the NeureonMindFlux Research Initiative in quantum-inspired and hypercausal computation.  
@@ -216,6 +232,7 @@ Full documentation is available here:
 [**QML-HCS Official Documentation**](https://qml-hcs.readthedocs.io/en/latest/index.html)
 
 ---
+
 ## Contact
 
 For inquiries, collaboration proposals, or research-related communication regarding QML-HCS, please use the following contact:
