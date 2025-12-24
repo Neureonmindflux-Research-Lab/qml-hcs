@@ -19,31 +19,33 @@
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Neureonmindflux-Research-Lab/qml-hcs/main/qml-hcs-logo.svg"
-       alt="QML-HCS Logo"
-       width="1200"
-       height="auto">
+  <img src="assets/qml-hcs-logo.png" alt="QML-HCS Logo" width="">
 </p>
 
-<p align="center">
-  <b>Quantum Machine Learning Hypercausal System</b>  
-  <br>
-  <i>A research-grade library for quantum-inspired machine learning with hypercausal feedback.</i>
-</p>
 
-# Quantum Machine Learning Hypercausal System 
 
-**QML-HCS** is a research-grade framework for constructing, simulating, and analyzing quantum-inspired machine learning architectures with hypercausal feedback mechanisms.  
-It integrates deterministic computation with causal inference and quantum-like superposition principles to explore emerging paradigms in Quantum Machine Learning (QML) and Causal Systems Theory.
 
 ---
 
 ## Overview
+**QML-HCS** is a research-grade framework for constructing, simulating, and analyzing
+quantum-inspired machine learning architectures with hypercausal feedback mechanisms.
+It integrates deterministic computation with causal inference and quantum-like
+superposition principles to explore emerging paradigms in Quantum Machine Learning (QML)
+and Causal Systems Theory.
 
-QML-HCS provides a modular and extensible environment for the study of hypercausal quantum models—systems that unify classical causal inference with quantum-inspired dynamics such as superposition, reversible transformations, and probabilistic branching.  
-It supports research into information propagation, causal stability, and consistency across interconnected quantum-like networks.
+Rather than assuming stationary data distributions or fixed causal structures, QML-HCS
+is designed to operate in non-stationary environments, where data distributions drift
+over time and models must adapt continuously. The framework enables the study of
+feedback-driven learning, causal stability, and coherent state evolution under concept
+drift, without relying on full retraining or static causal assumptions. 
 
-The framework is intended for scientific and engineering research in the following domains:
+QML-HCS is intended for researchers, engineers, and advanced practitioners working in
+quantum machine learning, causal modeling, hybrid quantum–classical computation, and
+adaptive learning systems operating in dynamic or drift-dominated environments.
+
+This framework supports research across the following areas:
+
 
 - **Quantum Machine Learning:** Development of quantum-inspired learning architectures.  
 - **Causal Dynamics and Feedback Modeling:** Formalization of recursive multi-branch causal systems.  
