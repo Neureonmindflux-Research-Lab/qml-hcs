@@ -36,7 +36,7 @@ language = "en"
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
-html_logo = "_static/qml-hcs-icon.svg"
+html_logo = "_static/qml-hcs-icon.png"
 
 
 # -- Napoleon settings -------------------------------------------------------
