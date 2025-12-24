@@ -3,7 +3,7 @@ QML-HCS Documentation
 
 
 
-.. image:: _static/qml-hcs-logo.svg
+.. image:: _static/qml-hcs-logo.png
    :alt: QML-HCS Logo
    :align: center
    :width: 1800px
