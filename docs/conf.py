@@ -19,6 +19,7 @@ extensions = [
     "sphinxcontrib.programoutput",
     "sphinx.ext.intersphinx",
     "sphinx.ext.graphviz",
+    "sphinx_copybutton",
 ]
 
 intersphinx_mapping = {
