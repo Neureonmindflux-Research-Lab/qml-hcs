@@ -19,6 +19,7 @@ extensions = [
     "sphinxcontrib.programoutput",
     "sphinx.ext.intersphinx",
     "sphinx.ext.graphviz",
+    "sphinx_copybutton",
 ]
 
 intersphinx_mapping = {
@@ -29,7 +30,7 @@ intersphinx_mapping = {
 }
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "integration.rst", "benchmarks.rst"]
 
 language = "en"
 

@@ -46,8 +46,6 @@ Welcome. Explore the examples, modules, and benchmark studies to understand how 
    examples
    architecture
    theory
-   integration
-   benchmarks
    changelog
    contributing
    modules/api_overview
