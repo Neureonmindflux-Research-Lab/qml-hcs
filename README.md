@@ -19,7 +19,7 @@
 
 
 <p align="center">
-  <img src="assets/qml-hcs-logo.jpg" alt="QML-HCS Logo" width="">
+  <img src="assets/qml-hcs-logo.png" alt="QML-HCS Logo" width="">
 </p>
 
 
