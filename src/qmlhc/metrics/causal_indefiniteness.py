@@ -4,7 +4,7 @@ r"""
 This module implements a computational metric for quantifying *causal
 indefiniteness* based on the trace distance to classically ordered
 (causally separable) reference processes, as introduced in the paper
-*Pre-Temporal Model of Quantum Causal Order*.
+:ref:`Pre-Temporal Model of Quantum Causal Order <theory>`
 
 The implementation is intentionally minimal and framework-agnostic.
 All objects are represented as square complex matrices, allowing the
