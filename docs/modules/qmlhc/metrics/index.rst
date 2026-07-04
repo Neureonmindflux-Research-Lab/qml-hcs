@@ -20,14 +20,18 @@ Architecture Overview
    |    qmlhc.metrics     |
    +-----------+----------+
                |
-       +-------v--------+     +--------------------+     +----------------------+
-       |   anomalies    |     |      control       |     |     forecasting      |
-       | (early alarms) |     | (stability/robust) |     | (error & Δ-lag)      |
-       +----------------+     +--------------------+     +----------------------+
+       +-------v--------+     +--------------------+     +----------------------+    +-----------------------+
+       |   anomalies    |     |      control       |     |    forecasting       |    |causal_indefiniteness  |
+       | (early alarms) |     | (stability/robust) |     | (error & Δ-lag)      |    |(causal structure λ(W))|
+       +----------------+     +--------------------+     +----------------------+    +-----------------------+
+                                                            
 
 - ``anomalies`` - metrics for **early detection** and **recall-at-lag** within sequential data.
 - ``control`` - indicators of **overshoot**, **settling time**, and **robustness** for response stability.
 - ``forecasting`` - statistical errors and temporal alignment metrics (MAPE, MASE, ΔLag, RMSE).
+- ``causal_indefiniteness`` – metrics for **quantifying causal non-separability**
+     via trace-distance–based measures.
+
 
 Core Contracts
 --------------
@@ -52,6 +56,10 @@ Core Contracts
      - Stability index in ``(0, 1]`` inversely proportional to MSE.
    * - ``mape``, ``mase``, ``delta_lag``, ``rmse`` (forecasting)
      - Standard predictive accuracy and alignment metrics.
+   * - ``lambda_w_trace(W, W_AB, W_BA)`` (causal_indefiniteness)
+     - Computes the **causal-indefiniteness measure** :math:`\lambda(W)` as the
+       trace-distance to the convex hull of definite causal orders.
+
 
 Integrated Evaluation Example
 -----------------------------
@@ -208,3 +216,4 @@ Module References
    Anomaly Metrics <qmlhc.metrics.anomalies>
    Control Metrics <qmlhc.metrics.control>
    Forecasting Metrics <qmlhc.metrics.forecasting>
+   Causal-Indefiniteness Metrics <qmlhc.metrics.causal_indefiniteness>
